@@ -18,8 +18,11 @@
 
     function filterOrder($store_id, $status, $time_from, $time_to){
         global $db;
-        $query = "SELECT FROM don_hang WHERE"; 
+        $query = "SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
+                    FROM DON_HANG
+                    WHERE maCH = " . $store_id . ";"; 
         $results = mysqli_query($db, $query);
+        echo mysqli_error($db);
         return $results;
     }
     function filterOrderByOrderId($order_id){
