@@ -27,8 +27,9 @@ if(isset($_POST["tracuu"])){
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
         else {
+            echo "0\n";
             while($row = $result->fetch_assoc()) {
-                echo "". $row["code"] . "\t". $row["receiver"] ."\t" . $row["status"]."\t". $row["fee"]. "\n";
+                echo "" . $row["maVD"] . "\t". $row["hotenNN"] ."\t". $row["sodienthoaiNN"] ."\t" . $row["diachiNN"]."\t". $row["trangthai"]. "\t" . "null". "\n" ;
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n
             }
         }
