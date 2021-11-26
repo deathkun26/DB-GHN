@@ -8,17 +8,13 @@
         2\tMinh Toan\tDang giao\t25000\n
         
 */
-if(isset($_POST["new_store"])){
-    // Mặc định khi thêm là cửa hàng chưa được kích hoạt
-    if(isset($_POST["store_id"]) && isset($_POST["owner_id"]) && isset($_POST["store_name"]) 
-    && isset($_POST["store_addr"]) && isset($_POST["store_phone"])){
+
+if(isset($_POST["add_employee"])){
+    if(isset($_POST["store_id"]) && isset($_POST["employee_id"])){
         $errors = array();
     
         $store_id = $_POST["store_id"];
-        $owner_id = $_POST["owner_id"];
-        $store_name = $_POST["store_name"];
-        $store_addr = $_POST["store_addr"]; 
-        $store_phone = $_POST["store_phone"];
+        $employee_id = $_POST["employee_id"];
 
         // Kết nối tới database
         require './connection.php';
@@ -27,7 +23,7 @@ if(isset($_POST["new_store"])){
         require "./function.php";
 
         // Thêm dữ liệu vào bảng đơn hàng
-        addStore($store_id, $owner_id, $store_name, $store_addr, $store_phone);
+        addEmployee($store_id, $employee_id);
         
         // Thêm dữ liệu vào bảng quản lí
 
@@ -37,25 +33,26 @@ if(isset($_POST["new_store"])){
     }
 }
 
-else if(isset($_POST["btn_tracuu"])){
-    if(isset($_POST["owner_id"]) && isset($_POST["status"])){
+else if(isset($_POST["employee_filter"])){
+    if(isset($_POST["store_id"])){
         $errors = array();
         
-        $owner_id = $_POST["owner_id"];
-        $status = $_POST["status"];
+        // Trả về họ và tên, số điện thoại và danh sách cửa hàng => Trả về thêm id để chỉnh sửa và xóa
+        $store_id = $_POST["store_id"];
     
         // Kết nối tới database
         require './connection.php';
     
         // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
-        $result = filterStore($owner_id, $status);
+        $result = filterEmployee($store_id);
         if(mysqli_num_rows($result) === 0) {
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
         else {
+            echo "0\n";
             while($row = $result->fetch_assoc()) {
-                echo "". $row["maCH"] . "\t" . $row["tenCH"] ."\t". $row["trangthaiCH"] ."\t" . $row["sodienthoaiCH"]."\t". $row["diachiCH"]. "\n";
+                echo "". $row["maND"] . "\t" . $row["hotenND"] ."\t". $row["sodienthoaiND"] ."\t" . $row["maCH"] ."\n";
                 // format echo: 1\t\tDang giao\t25000\n
             }
         }
@@ -63,9 +60,9 @@ else if(isset($_POST["btn_tracuu"])){
 }
 
 else if(isset($_POST["delete"])){
-    if(isset($_POST["$store_id"])){
-        
-        $store_id = $_POST["store_id"];
+    if(isset($_POST["$employee_id"])){
+    
+        $employee_id = $_POST["employee_id"];
     
         // Kết nối tới database
         require './connection.php';
@@ -74,19 +71,14 @@ else if(isset($_POST["delete"])){
         require "./function.php";
 
         // Xóa cửa hàng
-        deleteStore($store_id);
+        deleteStore($employee_id);
     }
 }
 
 else if(isset($_POST["update"])){
-    if(isset($_POST["$store_id"]) && isset($_POST["$owner_id"]) && isset($_POST["$store_name"])
-                                  && isset($_POST["$store_addr"]) && isset($_POST["$store_phone"])){
+    if(isset($_POST["$employee_id"]) && isset($_POST["$store_id"])){ // Nhận nhiều giá trị?  
         
         $store_id = $_POST["store_id"];
-        $owner_id = $_POST["owner_id"];
-        $store_name = $_POST["store_name"];
-        $store_addr = $_POST["store_addr"];
-        $store_phone = $_POST["store_phone"];
 
         // Kết nối tới database
         require './connection.php';
@@ -95,22 +87,8 @@ else if(isset($_POST["update"])){
         require "./function.php";
 
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
-        updateStore($store_id, $owner_id, $store_name, $store_addr, $store_phone);
+        updateEmployeeStore($employee_id, $store_id);
     }
 }
 
-else if(isset($_POST["activate"])){
-    if(isset($_POST["$store_id"])){
-        
-        $store_id = $_POST["store_id"];
-
-        // Kết nối tới database
-        require './connection.php';
-    
-        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
-        require "./function.php";
-
-        activateStore($store_id);
-    }
-}
 ?>
