@@ -42,21 +42,16 @@ if(isset($_POST["tracuu_order_id"])){
         
         $order_id = $_POST["order_id"];
     
-        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
         $result = filterOrderByOrderId($order_id);
-        if(mysqli_num_rows($result) === 0) {
-            echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
-        }        
-        else { // Thiếu tổng khối lượng
-            echo "". $row["hotenNN"] . "\t". $row["sodienthoaiNN"] ."\t" . $row["diachiNN"]."\t" . $row["trangthai"] . "\t". $row["size"] ."\t" . $row["diachitrahang"]  . $row["phigiaohang"] ."\n";
-        }
+
         if(mysqli_num_rows($result) === 0) {
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
         else {
+            echo "0\n";
             while($row = $result->fetch_assoc()) {
-                echo "". $row["hotenNN"] . "\t". $row["sodienthoaiNN"] ."\t" . $row["diachiNN"]."\t". $row["sttSP"] ."\t".  $row["tenSP"]."\t".  $row["soluongSP"]."\t".  $row["khoiluongSP"]."\t"."\n";
+                echo "". $row["hotenNN"] . "\t". $row["sodienthoaiNN"] ."\t" . $row["diachiNN"]."\t". $row["sttSP"] ."\t".  $row["tenSP"]."\t".  $row["soluongSP"]."\t".  $row["khoiluongSP"]."\n";
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n
             }
         }
@@ -106,10 +101,13 @@ if(isset($_POST["new_order"])){
         }   
 
         if(count($errors) == 0){
-            require dirname(__FILE__) . '/function.php';
+            require './connection.php';
+
+            // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+            require "./function.php";
 
             // Thêm dữ liệu vào bảng đơn hàng
-            addOrder($store_id, $order_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $STT_DGN, $KV_DGN, $status);
+            addOrder($store_id, $order_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $status);
             
             // Thêm dữ liệu vào bảng sản phẩm
             addProduct($order_id, $stt_id, $item_name, $weight, $quantity);

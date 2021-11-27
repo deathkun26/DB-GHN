@@ -71,7 +71,7 @@ else if(isset($_POST["delete"])){
         require "./function.php";
 
         // Xóa cửa hàng
-        deleteStore($employee_id);
+        deleteEmployee($employee_id);
     }
 }
 

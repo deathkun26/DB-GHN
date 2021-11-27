@@ -27,17 +27,17 @@ if(isset($_POST["new_store"])){
         require "./function.php";
 
         // Thêm dữ liệu vào bảng đơn hàng
-        addStore($store_id, $owner_id, $store_name, $store_addr, $store_phone);
-        
-        // Thêm dữ liệu vào bảng quản lí
-
-            /////////////////////////////
-
-        // 
+        $res = addStore($store_id, $owner_id, $store_name, $store_addr, $store_phone);
+        if ($res){
+            echo "1";
+        }
+        else {
+            echo "0";
+        }
     }
 }
 
-else if(isset($_POST["btn_tracuu"])){
+else if(isset($_POST["filter"])){
     if(isset($_POST["owner_id"]) && isset($_POST["status"])){
         $errors = array();
         
@@ -54,6 +54,7 @@ else if(isset($_POST["btn_tracuu"])){
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
         else {
+            echo "0\n";
             while($row = $result->fetch_assoc()) {
                 echo "". $row["maCH"] . "\t" . $row["tenCH"] ."\t". $row["trangthaiCH"] ."\t" . $row["sodienthoaiCH"]."\t". $row["diachiCH"]. "\n";
                 // format echo: 1\t\tDang giao\t25000\n
@@ -79,11 +80,10 @@ else if(isset($_POST["delete"])){
 }
 
 else if(isset($_POST["update"])){
-    if(isset($_POST["$store_id"]) && isset($_POST["$owner_id"]) && isset($_POST["$store_name"])
+    if(isset($_POST["$store_id"]) && isset($_POST["$store_name"])
                                   && isset($_POST["$store_addr"]) && isset($_POST["$store_phone"])){
         
         $store_id = $_POST["store_id"];
-        $owner_id = $_POST["owner_id"];
         $store_name = $_POST["store_name"];
         $store_addr = $_POST["store_addr"];
         $store_phone = $_POST["store_phone"];
@@ -95,7 +95,7 @@ else if(isset($_POST["update"])){
         require "./function.php";
 
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
-        updateStore($store_id, $owner_id, $store_name, $store_addr, $store_phone);
+        updateStore($store_id, $store_name, $store_addr, $store_phone);
     }
 }
 
