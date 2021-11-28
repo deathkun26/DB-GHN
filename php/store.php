@@ -19,12 +19,11 @@ if(isset($_POST["store_list"])){
         require "./function.php";
 
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
-        filterStore($owner_id, 1);
-
+        $result = filterStore($owner_id, 1);
         echo "0\n";
         while($row = $result->fetch_assoc()) {
-            echo "" . $row["maVD"] . "\t". $row["hotenNN"] ."\t". $row["sodienthoaiNN"] ."\t" . $row["diachiNN"]."\t". $row["trangthai"]. "\t" . "null". "\n" ;
-            // format echo: 1\tMinh Toan\tDang giao\t25000\n
+            echo "" . $row["maCH"] . "\t". $row["tenCH"] ."\n" ;
+            
         }
     }
 }

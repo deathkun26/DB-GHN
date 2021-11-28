@@ -8,6 +8,45 @@
         2\tMinh Toan\tDang giao\t25000\n
         
 */
+
+
+// Lấy thông tin cửa hàng
+if(isset($_POST["store_info"])){
+    if(isset($_POST["store_id"])){
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
+        $result = storeInfo($store_id);
+        echo "0\n";
+        while($row = $result->fetch_assoc()) {
+            echo "" . $row["tenCH"] . "\t". $row["sodienthoaiCH"]. "\t". $row["diachiCH"] ."\n" ;
+        }
+    }
+}
+
+// Lấy danh sách cửa hàng đã kích hoạt
+if(isset($_POST["store_list"])){
+    if(isset($_POST["owner_id"])){
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
+        $result = filterStore($owner_id, 1);
+        echo "0\n";
+        while($row = $result->fetch_assoc()) {
+            echo "" . $row["maCH"] . "\t". $row["tenCH"] ."\n" ;
+            
+        }
+    }
+}
+
 if(isset($_POST["tracuu"])){
     if(isset($_POST["store_id"]) && isset($_POST["status"]) && isset($_POST["time_from"]) && isset($_POST["time_to"])){
         $errors = array();
@@ -58,63 +97,104 @@ if(isset($_POST["tracuu_order_id"])){
     }
 }
 
-if(isset($_POST["new_order"])){
-    if(isset($_POST["order_id"]) && isset($_POST["store_id"]) && isset($_POST["shift"]) 
-    && isset($_POST["size"]) && isset($_POST["recv_name"]) && isset($_POST["recv_phone"])
-    && isset($_POST["recv_addr"]) && isset($_POST["STT_DGN"]) && isset($_POST["KV_DGN"])
-    && isset($_POST["item_name"]) && isset($_POST["weight"]) && isset($_POST["quantity"]) && isset($_POST["status"])){
+
+// Lấy danh sách điểm giao nhận
+if(isset($_POST["DGN_list"])){
+    // Kết nối tới database
+    require './connection.php';
+
+    // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+    require "./function.php";
+
+    $result = DGN();
+    echo "0\n";
+    while($row = $result->fetch_assoc()) {
+        echo "" . $row["sttDGN"] . " - ". $row["khuvucDGN"] . "\t". $row["diachiDGN"] ."\n" ; 
+    }
+}
+
+
+// Tạo đơn hàng mới
+if(isset($_POST["create_order"])){
+    if(isset($_POST["store_id"]) && isset($_POST["size"]) && isset($_POST["resend_addr"])
+     && isset($_POST["recv_name"]) && isset($_POST["recv_phone"]) && isset($_POST["recv_addr"]) 
+     && isset($_POST["shift"]) &&  isset($_POST["status"])){
         $errors = array();
     
         $store_id = $_POST["store_id"];
-        $order_id = $_POST["order_id"];
         $resend_addr = $_POST["resend_addr"];
         $shift = $_POST["shift"]; 
         $size = $_POST["size"];
         $recv_name = $_POST["recv_name"];
         $recv_phone = $_POST["recv_phone"];
         $recv_addr = $_POST["recv_addr"];
-        $STT_DGN = $_POST["STT_DGN"];
-        $KV_DGN = $_POST["KV_DGN"];
-        $item = $_POST["item_name"];
-        $weight = $_POST["weight"];
-        $quantity = $_POST["quantity"];
         $status = $_POST["quantity"];
+        $tenDGN = "";
 
-        // Kiểm tra dữ liệu thêm vào
-        if ($resend_tick && empty($resend_addr)) {
-            $errors[] = "Vui lòng nhập địa chỉ trả hàng.";
+        if(isset($_POST["status"])){
+            $tenDGN = $_POST["tenDGN"];
         }
 
-        if (empty($recv_name)) {
-            $errors[] = "Vui lòng nhập tên người nhận.";
+        require './connection.php';
+
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Thêm dữ liệu vào bảng đơn hàng
+        addOrder($store_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $status, $tenDGN);
+        // Echo trong funtion rồi    
+    }
+}
+
+// Thêm sản phẩm vào đơn hàng
+if(isset($_POST["add_item"])){
+    if(isset($_POST["order_id"]) && isset($_POST["name"]) && isset($_POST["weight"])
+     && isset($_POST["quantity"])){
+        $errors = array();
+    
+        $order_id = $_POST["order_id"];
+        $name = $_POST["name"];
+        $weight = $_POST["weight"]; 
+        $quantity = $_POST["quantity"];
+
+        require './connection.php';
+
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Thêm dữ liệu vào bảng đơn hàng
+        addItem($order_id, $name, $weight, $quantity);
+    }
+}
+
+// Lấy thông tin đơn nháp
+if(isset($_POST["don_nhap"])){
+    if(isset($_POST["order_id"])){
+        $errors = array();
+        
+        $order_id = $_POST["order_id"];
+    
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+        $result = filterOrderByOrderId($order_id);
+        if(mysqli_num_rows($result) === 0) {
+            echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
+        }        
+        else {
+            echo "0\n";
+            while($row = $result->fetch_assoc()) {
+                echo "" . $row["diachitrahang"] . "\t". $row["sttDGN"] ."-". $row["khuvucDGN"] ."\t" . $row["calayhang"]."\t". $row["hotenNN"]. "\t" . "sodienthoaiNN". "\t" . "diachiNN"."\n" ;
+                // format echo: 1\tMinh Toan\tDang giao\t25000\n
+            }
+            $result2 = filterItemByOrderId($order_id);
+            while($row = $result2->fetch_assoc()) {
+                echo "" . $row["sttSP"] . "\t". $row["tenSP"] ."-". $row["soluongSP"] ."\t" . $row["khoiluongSP"]."\n" ;
+                // format echo: 1\tMinh Toan\tDang giao\t25000\n
+            }
         }
-        if (empty($recv_phone)) {
-            $errors[] = "Vui lòng nhập số điện thoại người nhận.";
-        }
-
-        if (empty($recv_addr)) {
-            $errors[] = "Vui lòng nhập địa chỉ người nhận.";
-        }
-        if (empty($item) || empty($quantity) || empty($weight)) {
-            $errors[] = "Vui lòng nhập đầy đủ thông tin sản phẩm.";
-
-        }   
-
-        if(count($errors) == 0){
-            require './connection.php';
-
-            // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
-            require "./function.php";
-
-            // Thêm dữ liệu vào bảng đơn hàng
-            addOrder($store_id, $order_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $status);
-            
-            // Thêm dữ liệu vào bảng sản phẩm
-            addProduct($order_id, $stt_id, $item_name, $weight, $quantity);
-            // Thêm dữ liệu vào bảng trả hàng
-
-            // Thêm dữ liệu vào bảng gửi tới
-        }    
     }
 }
 ?>

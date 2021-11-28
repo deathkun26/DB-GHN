@@ -15,7 +15,14 @@
         $results = mysqli_query($db, $query);
         return $results;
     }
-    /* Lọc order theo trạng thái, thời gian */
+    /* Lọc order theo trạng thái, thời gian 
+    REF: So sánh date time: 
+        select PK, userID, lr.Date, lr.Time, Half, lr.InOut, Op_UserID, About
+        from loginrecord lr
+        where lr.Date Between '2017-05-17' AND '2017-05-17'
+        and lr.InOut = 1
+        and TIME_FORMAT(lr.Time, '%H:%i') > '10:30'
+    */
     function filterOrder($store_id, $status, $time_from, $time_to){
         global $db;
         $query = "";
@@ -28,32 +35,91 @@
         if ($status == ""){
             $query = "SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
                     FROM DON_HANG
-                    WHERE maCH = '$store_id' AND ngaytaoDH = '$time_from' AND ngaytaoDH = '$time_to' ORDER BY ngaytaoDH DESC";
+                    WHERE maCH = '$store_id' AND ngaytaoDH >= '$time_from' AND ngaytaoDH <= '$time_to' ORDER BY ngaytaoDH DESC";
         }
         else {
             $query = "SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
                     FROM DON_HANG
-                    WHERE trangthai = '$status' AND maCH = '$store_id' AND ngaytaoDH = '$time_from' AND ngaytaoDH = '$time_to' ORDER BY ngaytaoDH DESC";
+                    WHERE trangthai = '$status' AND maCH = '$store_id' AND ngaytaoDH >= '$time_from' AND ngaytaoDH <= '$time_to' ORDER BY ngaytaoDH DESC";
         }
 
         $results = mysqli_query($db, $query);
         echo mysqli_error($db);
         return $results;
     }
-    // =============================================== CÁI NÀY CHƯA LÀM ======================================================
-    /*Lọc thông tin đơn theo mã đơn */
-    function filterOrderByOrderId($order_id){
+    
+    function storeInfo($store_id){
         global $db;
-        $query = "SELECT FROM don_hang WHERE"; 
+
+        $query = "SELECT tenCH, sodienthoaiCH, diachiCH FROM cua_hang WHERE maCH=" .$store_id; 
         $results = mysqli_query($db, $query);
         return $results;
     }
-    // =======================================================================================================================
+
+    /*Lọc thông tin đơn theo mã đơn */
+    function filterOrderByOrderId($order_id){
+        global $db;
+        $query = "SELECT `don_hang`.`diachitrahang` AS diachitrahang, 
+                        `gui_toi`.`sttDGN` AS sttDGN,
+                        `gui_toi`.`khuvucDGN` AS khuvucDGN,
+                        `gui_toi`.`calayhang` AS calayhang,
+                        `gui_toi`.`hotenNN` AS hotenNN,
+                        `gui_toi`.`sodienthoaiNN` AS sodienthoaiNN,
+                        `gui_toi`.`diachiNN` AS diachiNN,
+                        FROM don_hang, gui_toi WHERE maVD=".$order_id; 
+        $results = mysqli_query($db, $query);
+        return $results;
+    }
+
+    // Lọc thông tin sản phẩm trong đơn
+    function filterItemByOrderId($order_id){
+        global $db;
+        $query = "SELECT * FROM san_pham WHERE maVD=".$order_id; 
+        $results = mysqli_query($db, $query);
+        return $results;
+    }
+
     /* Thêm đơn mới vào cơ sở dữ liệu*/
     // MaBT đang null do không biết gán cho ai
-    function addOrder($store_id, $order_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $status){
+    function addOrder($store_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $status, $tenDGN){
         global $db;
-        $query = "INSERT INTO don_hang VALUES('$order_id', '$size', '$resend_addr', '$recv_name', '$recv_phone', '$recv_addr', 'NULL', '$shift', '$store_id', '$status', 'DATE()', 0)"; 
+        $query = "SELECT MAX(maVD) AS maVD FROM `don_hang`";
+        $results = mysqli_query($db, $query);
+        $maVD = "";
+        while($row = $results->fetch_assoc()) {
+           $maVD = (int)$row["maVD"];                 
+        }
+        $maVD = $maVD+1;
+        $query = "INSERT INTO don_hang(maVD, kichthuocDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, calayhang, maCH,trangthai, ngaytaoDH)
+                  VALUES('$maVD', '$size', '$resend_addr', '$recv_name', '$recv_phone', '$recv_addr', '$shift', '$store_id', '$status', 'DATE()')"; 
+        $results = mysqli_query($db, $query);
+        
+        echo "0\n" . $maVD;
+        
+        // THêm vào điểm giao nhận
+        $tenDGN = explode("-", $tenDGN);
+        $query = "INSERT INTO gui_toi VALUES('$maVD', '$tenDGN[0]', '$tenDGN[1]')"; 
+        $results = mysqli_query($db, $query);
+        return $results;
+    }
+    function addItem($order_id, $name, $weight, $quantity){
+        global $db;
+        $query = "SELECT MAX(sttSP) AS sttSP FROM `san_pham` WHERE maVD=" .$order_id;
+        $results = mysqli_query($db, $query);
+        $sttSP = "";
+        while($row = $results->fetch_assoc()) {
+            $sttSP = (int)$row["sttSP"];                 
+        }
+        $sttSP = $sttSP + 1;
+        $query = "INSERT INTO san_pham VALUES('$order_id', '$sttSP', '$name', '$quantity', '$weight')"; 
+        $results = mysqli_query($db, $query);
+        
+        echo "0";
+        return $results;
+    }
+    function DGN(){
+        global $db;
+        $query = "SELECT * FROM diem_giao_nhan"; 
         $results = mysqli_query($db, $query);
         return $results;
     }
