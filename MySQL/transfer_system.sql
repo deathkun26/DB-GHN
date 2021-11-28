@@ -640,7 +640,7 @@ CREATE TABLE DON_HANG (
     -- true la ca sang, false la ca chieu
     maCH INT NOT NULL,
     trangthai TINYINT DEFAULT 0,
-    -- trang thai nhap, dang giao, hoan thanh
+    -- trang thai nhap, đang xử lý, dang giao, hoan thanh
     ngaytaoDH DATE DEFAULT (DATE(CURRENT_TIMESTAMP)),
     -- THIEU
     PRIMARY KEY (maVD),
@@ -653,7 +653,7 @@ CREATE TABLE DON_HANG (
     ),
     CHECK (
         trangthai >= 0
-        AND trangthai <= 2
+        AND trangthai <= 3
     )
 );
 
@@ -726,7 +726,7 @@ VALUES
         1230,
         0,
         1230001,
-        1,
+        3,
         NULL
     );
 
@@ -768,7 +768,7 @@ VALUES
         1231,
         0,
         1230002,
-        0,
+        2,
         NULL
     );
 
@@ -786,7 +786,7 @@ VALUES
         1231,
         0,
         1230002,
-        0,
+        1,
         NULL
     );
 
@@ -845,7 +845,7 @@ VALUES
         2231,
         0,
         2340002,
-        1,
+        3,
         NULL
     );
 
@@ -901,7 +901,7 @@ VALUES
         3231,
         1,
         3450002,
-        0,
+        3,
         NULL
     );
 
