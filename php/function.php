@@ -40,6 +40,7 @@
         echo mysqli_error($db);
         return $results;
     }
+    // =============================================== CÁI NÀY CHƯA LÀM ======================================================
     /*Lọc thông tin đơn theo mã đơn */
     function filterOrderByOrderId($order_id){
         global $db;
@@ -47,6 +48,7 @@
         $results = mysqli_query($db, $query);
         return $results;
     }
+    // =======================================================================================================================
     /* Thêm đơn mới vào cơ sở dữ liệu*/
     // MaBT đang null do không biết gán cho ai
     function addOrder($store_id, $order_id, $resend_addr, $shift, $size, $recv_name, $recv_addr, $recv_phone, $status){
@@ -114,9 +116,9 @@
         global $db;
         $query = "";
         if($store_id == "")
-            $query = "SELECT * FROM nguoi_dung, nhan_vien, lam_viec_tai WHERE nguoi_dung.maND = nhan_vien.maND AND lam_viec_tai.maND = nguoi_dung.maND;"; 
+            $query = "SELECT * FROM `nguoi_dung`, `nhan_vien`, `lam_viec_tai` WHERE `nguoi_dung`.`maND` = `nhan_vien`.`maND` AND `lam_viec_tai`.`maND` = `nguoi_dung`.`maND`;"; 
         else { 
-            $query = "SELECT * FROM nguoi_dung, nhan_vien, lam_viec_tai WHERE lam_viec_tai.maCH = '$store_id' AND nguoi_dung.maND = nhan_vien.maND AND lam_viec_tai.maND = nguoi_dung.maND;";
+            $query = "SELECT * FROM `nguoi_dung`, `nhan_vien`, `lam_viec_tai` WHERE `lam_viec_tai`.`maCH`" . $store_id. " AND `nguoi_dung`.`maND` = `nhan_vien`.`maND` AND `lam_viec_tai`.`maND` = `nguoi_dung`.`maND`;";
         }
 
         $results = mysqli_query($db, $query);
@@ -125,49 +127,91 @@
     /* Xóa nhân viên theo mã nhân viên */
     function deleteEmployee($employee_id){
         global $db;
-        $query = "DELETE FROM nhan_vien WHERE maND = '$employee_id'"; 
+        $query = "DELETE FROM nguoi_dung WHERE maND = '$employee_id'"; 
         $results = mysqli_query($db, $query);
         return $results;
     }
     /* Cập nhật nhân viên cho cửa hàng */
-    function updateEmployeeStore($employee_id, $store_id){
+    function updateEmployeeStore($employee_id, $store_id, $value){
         global $db;
-        $query = "UPDATE"; 
+        $query = "";
+        if($value){
+            $query = "INSERT INTO lam_viec_tai VALUES($store_id, $employee_id)"; 
+        }
+        else {
+            $query = "DELETE FROM lam_viec_tai WHERE maND= '$employee_id'";
+        }
         $results = mysqli_query($db, $query);
         return $results;
     }
     /* Thêm nhân viên vào cửa hàng */
     function addEmployee($store_id, $employee_id){
         global $db;
-        $query = "INSERT"; 
+        // Kiểm tra nhân viên đó đã có trong bảng chưa
+        $query = "SELECT FROM lam_viec_tai WHERE maCH='$store_id' maND='$employee_id'";
+        $result = mysqli_query($db, $query);
+        if (mysqli_num_rows($result) > 0) {
+            return "2"; // Đã tổn tại
+        }
+        $query = "INSERT INTO lam_viec_tai VALUES($store_id, $employee_id)";
         $results = mysqli_query($db, $query);
         return $results;
     }
     /* Thêm yêu cầu hỗ trợ */
     function addRequest($user_id, $order_id, $request_id, $type, $content){
         global $db;
-        $query = "INSERT"; 
+        // Thêm vào bảng yêu cầu hỗ trợ
+        $query = "INSERT INTO yeu_cau_ho_tro VALUES ('$request_id', '$type', '$content', 0)"; 
+        mysqli_query($db, $query);
+        // Thêm vào bảng gửi yêu cầu
+        $query = "INSERT INTO gui_yeu_cau VALUES ('$user_id', '$request_id', '$order_id', 'DATE()')"; 
         $results = mysqli_query($db, $query);
         return $results;
     }
     /* Lọc yêu cầu hỗ trợ */
-    function filterRequest($order_id, $status, $time_from, $time_to){
+    function filterRequest($user_id, $status, $time_from, $time_to){
         global $db;
-        $query = "SELECT"; 
+        $query = "";
+        if($time_from == "") {
+            $time_from = "1970-01-01";
+        }
+        if($time_to == "") {
+            $time_to = "2970-01-01";
+        } 
+        if ($status == ""){
+            $query = "SELECT `gui_yeu_cau`.`maYC` AS `maYC`,
+                             `gui_yeu_cau`.`maVD` AS `maVD`,
+                             `gui_yeu_cau`.`thoigiangui` AS `thoigiangui`,
+                             `yeu_cau_ho_tro`.`noidungYC` AS `noidungYC`,
+                             `yeu_cau_ho_tro`.`trangthaiYC` AS `trangthaiYC`
+                      FROM `gui_yeu_cau`, `yeu_cau_ho_tro` 
+                      WHERE `gui_yeu_cau`.`maYC`=`yeu_cau_ho_tro`.`maYC` AND `gui_yeu_cau`.`maND`=" . $user_id;
+        }
+        else {
+            $query = "SELECT `gui_yeu_cau`.`maYC` AS `maYC`,
+                             `gui_yeu_cau`.`maVD` AS `maVD`,
+                             `gui_yeu_cau`.`thoigiangui` AS `thoigiangui`,
+                             `yeu_cau_ho_tro`.`noidungYC` AS `noidungYC`,
+                             `yeu_cau_ho_tro`.`trangthaiYC` AS `trangthaiYC`
+                      FROM `gui_yeu_cau`, `yeu_cau_ho_tro` 
+                      WHERE `gui_yeu_cau`.`maYC`=`yeu_cau_ho_tro`.`maYC` AND `gui_yeu_cau`.`maND`=" . $user_id. "AND `yeu_cau_ho_tro`.`trangthaiYC`=" . $status;
+        }
         $results = mysqli_query($db, $query);
+        echo mysqli_error($db);
         return $results;
     }
     /* Xóa yêu cầu hỗ trợ */
     function deleteRequest($request_id){
         global $db;
-        $query = "DELETE"; 
+        $query = "DELETE FROM yeu_cau_ho_tro WHERE maCY='$request_id'"; 
         $results = mysqli_query($db, $query);
         return $results;
     }
     /* Sửa yêu cầu (Cập nhật thời gian?) */
-    function updateRequest($store_id, $content){
+    // Yêu cầu hỗ trợ thay đổi không cần cascade gui_yeu_cau
+    function updateRequest($request_id, $content){
         global $db;
-        $query = "UPDATE"; 
+        $query = "UPDATE yeu_cau_ho_tro SET `noidungYC`=" . $content . "WHERE maYC=" . $request_id; 
         $results = mysqli_query($db, $query);
         return $results;
     }

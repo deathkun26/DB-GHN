@@ -76,9 +76,11 @@ else if(isset($_POST["delete"])){
 }
 
 else if(isset($_POST["update"])){
-    if(isset($_POST["$employee_id"]) && isset($_POST["$store_id"])){ // Nhận nhiều giá trị?  
+    if(isset($_POST["$employee_id"]) && isset($_POST["$store_id"]) && isset($_POST["$store_id"])){ // Nhận nhiều giá trị?  
         
         $store_id = $_POST["store_id"];
+        $employee_id = $_POST["employee_id"];
+
 
         // Kết nối tới database
         require './connection.php';
@@ -87,7 +89,7 @@ else if(isset($_POST["update"])){
         require "./function.php";
 
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
-        updateEmployeeStore($employee_id, $store_id);
+        updateEmployeeStore($employee_id, $store_id, $value);
     }
 }
 
