@@ -28,9 +28,10 @@ if(isset($_POST["add_request"])){
 }
 
 else if(isset($_POST["filter_request"])){
-    if(isset($_POST["order_id"]) && isset($_POST["status"]) && isset($_POST["time_from"]) && isset($_POST["time_to"])){
+    if(isset($_POST["user_id"]) && isset($_POST["order_id"]) && isset($_POST["status"]) && isset($_POST["time_from"]) && isset($_POST["time_to"])){
         $errors = array();
         
+        $user_id = $_POST["user_id"];
         $order_id = $_POST["order_id"];
         $status = $_POST["status"];
         $time_from = $_POST["time_from"];
@@ -41,7 +42,7 @@ else if(isset($_POST["filter_request"])){
     
         // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
-        $result = filterRequest($order_id, $status, $time_from, $time_to);
+        $result = filterRequest($user_id, $order_id, $status, $time_from, $time_to);
         if(mysqli_num_rows($result) === 0) {
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
@@ -83,7 +84,7 @@ else if(isset($_POST["update"])){
         require "./function.php";
 
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
-        updateRequest($store_id, $content);
+        updateRequest($request_id, $content);
     }
 }
 
