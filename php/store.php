@@ -8,6 +8,26 @@
         2\tMinh Toan\tDang giao\t25000\n
         
 */
+
+// Lấy danh sách cửa hàng đã kích hoạt
+if(isset($_POST["store_list"])){
+    if(isset($_POST["owner_id"])){
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
+        filterStore($owner_id, 1);
+
+        echo "0\n";
+        while($row = $result->fetch_assoc()) {
+            echo "" . $row["maVD"] . "\t". $row["hotenNN"] ."\t". $row["sodienthoaiNN"] ."\t" . $row["diachiNN"]."\t". $row["trangthai"]. "\t" . "null". "\n" ;
+            // format echo: 1\tMinh Toan\tDang giao\t25000\n
+        }
+    }
+}
 if(isset($_POST["new_store"])){
     // Mặc định khi thêm là cửa hàng chưa được kích hoạt
     if(isset($_POST["store_id"]) && isset($_POST["owner_id"]) && isset($_POST["store_name"]) 
