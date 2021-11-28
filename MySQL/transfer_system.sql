@@ -235,8 +235,6 @@ CREATE TABLE DON_HANG (
     hotenNN VARCHAR(30),
     sodienthoaiNN CHAR(10),
     diachiNN VARCHAR(60),
-    sttDGN INT,
-    khuvucDGN VARCHAR(30),
     maBT INT,
     calayhang BOOL DEFAULT TRUE, -- true la ca sang, false la ca chieu
     maCH INT NOT NULL,
@@ -257,23 +255,23 @@ CREATE TABLE DON_HANG (
 );
 -- CHỦ 1 - CH1
 INSERT INTO DON_HANG
-VALUES (11111111, 100, NULL, NULL, 'Trần Quang Huy', '0775337890', "Huyện Long Thành - Tỉnh Đồng Nai", 1, 'Quận 10', 1230, 1, 1230001, 0, NULL);
+VALUES (11111111, 100, NULL, NULL, 'Trần Quang Huy', '0775337890', "Huyện Long Thành - Tỉnh Đồng Nai", 1230, 1, 1230001, 0, NULL);
 INSERT INTO DON_HANG
-VALUES (11111112, 150, NULL, NULL, 'Hà Duy Anh', '0772463000', "Huyện KrôngAna - Tỉnh Đắk Lắk", 1, 'Quận 10', 1230, 1, 1230001, 2, NULL);
+VALUES (11111112, 150, NULL, NULL, 'Hà Duy Anh', '0772463000', "Huyện KrôngAna - Tỉnh Đắk Lắk", 1230, 1, 1230001, 2, NULL);
 INSERT INTO DON_HANG
-VALUES (11111113, 30, NULL, NULL, 'Lê Bình Đẳng', '0352123456', "Quận Tân Phú - TPHCM", 1, 'Quận 10', 1230, 1, 1230001, 1, NULL);
+VALUES (11111113, 30, NULL, NULL, 'Lê Bình Đẳng', '0352123456', "Quận Tân Phú - TPHCM", 1230, 1, 1230001, 1, NULL);
 INSERT INTO DON_HANG
-VALUES (11111114, 200, NULL,  NULL, 'Nguyễn Công Thành', '0352123210', "Quận Thủ Đức - TPHCM", 1, 'Quận 10', 1230, 2, 1230001, 1, NULL);
--- INSERT INTO DON_HANG (maVD, kichthuocDH, khoiluongDH, sttDGN, khuvucDGN, maCH)
--- VALUES (11111115, 300, NULL, 1, 'Quận 10', 1234567);
+VALUES (11111114, 200, NULL,  NULL, 'Nguyễn Công Thành', '0352123210', "Quận Thủ Đức - TPHCM", 1230, 2, 1230001, 1, NULL);
+INSERT INTO DON_HANG (maVD, kichthuocDH, khoiluongDH, maCH)
+VALUES (11111115, 300, NULL, 1230001);
 
 -- CH2
 INSERT INTO DON_HANG
-VALUES (12222221, 100, NULL, NULL, 'Trần Quang Huy', '0775337890', "Huyện Long Thành - Tỉnh Đồng Nai", 2, 'Sơn Trà', 1231, 1, 1230002, 0, NULL);
+VALUES (12222221, 100, NULL, NULL, 'Trần Quang Huy', '0775337890', "Huyện Long Thành - Tỉnh Đồng Nai", 1231, 1, 1230002, 0, NULL);
 INSERT INTO DON_HANG
-VALUES (12222222, 150, NULL, NULL, 'Hà Duy Anh', '0772463000', "Huyện KrôngAna - Tỉnh Đắk Lắk", 2, 'Sơn Trà', 1231, 2, 1230002, 0, NULL);
+VALUES (12222222, 150, NULL, NULL, 'Hà Duy Anh', '0772463000', "Huyện KrôngAna - Tỉnh Đắk Lắk", 1231, 2, 1230002, 0, NULL);
 INSERT INTO DON_HANG
-VALUES (12222223, 30, NULL, NULL, 'Hoàng Khánh Ly', '0357500980', "Huyện Yên Thành - Tỉnh Nghệ An", 2, 'Sơn Trà', 1231, 2, 1230002, 0, NULL);
+VALUES (12222223, 30, NULL, NULL, 'Hoàng Khánh Ly', '0357500980', "Huyện Yên Thành - Tỉnh Nghệ An", 1231, 2, 1230002, 0, NULL);
 
 -- -- CH3
 -- INSERT INTO DON_HANG
@@ -281,23 +279,23 @@ VALUES (12222223, 30, NULL, NULL, 'Hoàng Khánh Ly', '0357500980', "Huyện Yê
 
 --CHỦ 2 - CH1
 INSERT INTO DON_HANG
-VALUES (21111111, 112, NULL, NULL, 'Ngô Diễm Quỳnh', '0357896098', "Huyện Buôn Hồ - Tỉnh Đắk Lắk", 4, 'Dầu Tiếng', 2230, 2, 2340001, 1, NULL);
+VALUES (21111111, 112, NULL, NULL, 'Ngô Diễm Quỳnh', '0357896098', "Huyện Buôn Hồ - Tỉnh Đắk Lắk", 2230, 2, 2340001, 1, NULL);
 
 --CH2
 INSERT INTO DON_HANG
-VALUES (22222221, 30, NULL, NULL, 'Hoàng Khánh Ly', '0357500980', "Huyện Yên Thành - Tỉnh Nghệ An", 5, 'Thủ Đức', 2231, 2, 2340002, 0, NULL);
+VALUES (22222221, 30, NULL, NULL, 'Hoàng Khánh Ly', '0357500980', "Huyện Yên Thành - Tỉnh Nghệ An", 2231, 2, 2340002, 0, NULL);
 INSERT INTO DON_HANG
-VALUES (22222222, 50, NULL, NULL, 'Lê Thanh Sang', '0357896086', "Quận Thủ Đức - Thành phố Hồ Chí Minh", 5, 'Thủ Đức', 2231, 2, 2340002, 1, NULL);
+VALUES (22222222, 50, NULL, NULL, 'Lê Thanh Sang', '0357896086', "Quận Thủ Đức - Thành phố Hồ Chí Minh", 2231, 2, 2340002, 1, NULL);
 
 --CHỦ 3 - CH1
 INSERT INTO DON_HANG
-VALUES (31111111, 30, NULL, NULL, 'Lê Đức Khoan', '0357508876', "Thành phố Dĩ An - Tỉnh Bình Dương", 6, 'KrôngAna', 3230, 1, 3450001, 2, NULL);
+VALUES (31111111, 30, NULL, NULL, 'Lê Đức Khoan', '0357508876', "Thành phố Dĩ An - Tỉnh Bình Dương", 3230, 1, 3450001, 2, NULL);
 INSERT INTO DON_HANG
-VALUES (31111112, 30, NULL, NULL, 'Phan Đinh Minh Toàn', '0357508876', "Thành phố Pleiku - Tỉnh Gia Lai", 6, 'KrôngAna', 3230, 1, 3450001, 0, NULL);
+VALUES (31111112, 30, NULL, NULL, 'Phan Đinh Minh Toàn', '0357508876', "Thành phố Pleiku - Tỉnh Gia Lai", 3230, 1, 3450001, 0, NULL);
 
 --CH2
 INSERT INTO DON_HANG
-VALUES (32222221, 130, NULL, NULL, 'Trần Văn Thái', '0357508876', "Quận Sơn Trà - Thành phố Đà Nẵng", 7, 'Dĩ An', 3231, 1, 3450002, 0, NULL);
+VALUES (32222221, 130, NULL, NULL, 'Trần Văn Thái', '0357508876', "Quận Sơn Trà - Thành phố Đà Nẵng", 3231, 1, 3450002, 0, NULL);
 
 CREATE TABLE SAN_PHAM (
     maVD INT NOT NULL,
