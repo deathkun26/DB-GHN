@@ -1,25 +1,25 @@
 -- yêu cầu số 1
--- hiển thị danh sách các nhân viên thuộc 1 cửa hàng có mã cửa hàng là 1234567 theo thứ tự tên của nhân viên. 
+-- hiển thị danh sách các nhân viên thuộc 1 cửa hàng có mã cửa hàng là 1230001 theo thứ tự tên của nhân viên. 
 SELECT NGUOI_DUNG.maND AS ma_NV, hotenND AS ho_ten_NV, sodienthoaiND AS so_dien_thoai_NV
 FROM LAM_VIEC_TAI, NGUOI_DUNG
-WHERE LAM_VIEC_TAI.maCH = 1234567 AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
+WHERE LAM_VIEC_TAI.maCH = 1230001 AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
 ORDER BY hotenND ASC;
--- hiển thị danh sách tất cả các nhân viên đang làm việc cho người chủ có mã người dùng là 12345678 theo thứ tự tên của nhân viên.
+-- hiển thị danh sách tất cả các nhân viên đang làm việc cho người chủ có mã người dùng là 12300000 theo thứ tự tên của nhân viên.
 SELECT DISTINCT NGUOI_DUNG.maND AS ma_NV, hotenND AS ho_ten_NV, sodienthoaiND AS so_dien_thoai_NV
 FROM CUA_HANG, LAM_VIEC_TAI, NGUOI_DUNG
-WHERE CUA_HANG.maCCH = 12345678 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
+WHERE CUA_HANG.maCCH = 12300000 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
 ORDER BY hotenND ASC;
--- hiển thị số nhân viên theo từng cửa hàng của người chủ có mã người dùng là 12345678 theo thứ tự giảm dần của số nhân viên (chỉ hiển thị những cửa hàng đã có ít nhất 1 nhân viên)
+-- hiển thị số nhân viên theo từng cửa hàng của người chủ có mã người dùng là 12300000 theo thứ tự giảm dần của số nhân viên (chỉ hiển thị những cửa hàng đã có ít nhất 1 nhân viên)
 SELECT tenCH AS ten_CH, COUNT(*) AS so_nhan_vien
 FROM CUA_HANG, LAM_VIEC_TAI, NGUOI_DUNG
-WHERE CUA_HANG.maCCH = 12345678 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
+WHERE CUA_HANG.maCCH = 12300000 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
 GROUP BY tenCH
 HAVING COUNT(*) > 0
 ORDER BY COUNT(*) DESC;
--- hiển thị số cửa hàng cùng một chủ có mã người dùng là 12345678 mà nhân viên đang làm việc theo thứ tự giảm dần của số cửa hàng (chỉ hiển thị những nhân viên đã làm việc tại ít nhất 1 cửa hàng)
+-- hiển thị số cửa hàng cùng một chủ có mã người dùng là 12300000 mà nhân viên đang làm việc theo thứ tự giảm dần của số cửa hàng (chỉ hiển thị những nhân viên đã làm việc tại ít nhất 1 cửa hàng)
 SELECT DISTINCT NGUOI_DUNG.hotenND AS ho_ten_NV, COUNT(*) AS so_cua_hang
 FROM LAM_VIEC_TAI, NGUOI_DUNG, CUA_HANG
-WHERE CUA_HANG.maCCH = 12345678 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
+WHERE CUA_HANG.maCCH = 12300000 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH AND LAM_VIEC_TAI.maND = NGUOI_DUNG.maND
 GROUP BY NGUOI_DUNG.hotenND
 HAVING COUNT(*) > 0
 ORDER BY COUNT(*) DESC;
@@ -31,7 +31,7 @@ ORDER BY COUNT(*) DESC;
 -- xoá khỏi cửa hàng
 -- thêm nhân viên vào cửa hàng
 
--- thủ tục hiển thị danh sách các nhân viên thuộc 1 cửa hàng có mã cửa hàng là 1234567 theo thứ tự tên của nhân viên.
+-- thủ tục hiển thị danh sách các nhân viên thuộc 1 cửa hàng có mã cửa hàng là 1230001 theo thứ tự tên của nhân viên.
 DROP PROCEDURE IF EXISTS locNhanVien;
 DELIMITER //
 
@@ -50,7 +50,7 @@ END //
 
 DELIMITER ;
 
-CALL locNhanVien(23456789);
+CALL locNhanVien(1230002);
 -- thủ tục thêm nhân viên vào cửa hàng
 DROP PROCEDURE IF EXISTS themNhanVien;
 DELIMITER //
@@ -72,24 +72,19 @@ END //
 
 DELIMITER ;
 
-DELETE FROM LAM_VIEC_TAI WHERE maCH = 1234567 AND maND = 34567812;
-CALL themNhanVien(1234567, 34567812);
+CALL themNhanVien(1230001, 12300003); -- thêm Dân vào CH1 of chủ 1
 
 -- yêu cầu số 3
 -- trigger phân loại người dùng
 DELIMITER //
 
-CREATE TRIGGER phanLoaiND
+CREATE TRIGGER capNhatSoLuongNV
     AFTER INSERT
-    ON NGUOI_DUNG FOR EACH ROW
+    ON LAM_VIEC_TAI FOR EACH ROW
 BEGIN
-	IF NGUOI_DUNG.loai = 0 THEN
-		INSERT INTO CHU_CUA_HANG
-        VALUES (NEW.maND);
-	ELSE
-		INSERT INTO NHAN_VIEN
-        VALUES (NEW.maND);
-	END IF;
+	UPDATE CUA_HANG
+    SET CUA_HANG.soluongnhanvien = (CUA_HANG.soluongnhanvien + 1)
+    WHERE CUA_HANG.maCH = NEW.maCH;
 END//  
 
 DELIMITER ;
@@ -119,26 +114,26 @@ END//
 DELIMITER ;
 
 -- yêu cầu số 4
--- hàm tính tổng số nhân viên của một cửa hàng
+-- hàm tính tổng số nhân viên làm việc cho một người chủ.
 DROP FUNCTION IF EXISTS tinhTongSoNhanVien;
 DELIMITER //
 
 CREATE FUNCTION tinhTongSoNhanVien(
-	ma_cua_hang INT
+	ma_chu_cua_hang INT
 ) 
 RETURNS INT
 DETERMINISTIC
 BEGIN
 	DECLARE result INT;
-	IF ma_cua_hang >= 1000000 OR ma_cua_hang <= 9999999 THEN
-		SET result = (SELECT DISTINCT COUNT(*) FROM LAM_VIEC_TAI WHERE LAM_VIEC_TAI.maCH = ma_cua_hang);
+	IF ma_chu_cua_hang >= 10000000 OR ma_chu_cua_hang <= 99999999 THEN
+		SET result = (SELECT COUNT(*) FROM (SELECT DISTINCT LAM_VIEC_TAI.maND, COUNT(*) FROM CUA_HANG, LAM_VIEC_TAI WHERE CUA_HANG.maCCH = 12300000 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH GROUP BY LAM_VIEC_TAI.maND) AS T);
 	END IF;
     RETURN result;
 END//
 
 DELIMITER ;
 
-SELECT tinhTongSoNhanVien(1234567);
+SELECT tinhTongSoNhanVien(12300000);
 
 
 

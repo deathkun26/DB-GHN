@@ -47,13 +47,14 @@ BEGIN
 		SELECT maCH, tenCH,trangthaiCH
 		FROM CUA_HANG
 		WHERE maCCH = ma_chu_cua_hang;
+	END IF;
 END //
 DELIMITER ;
 
 CALL DanhSachCH(12345678);
 
---thay đổi trạng thái của cửa hàng 
-DELIMITER//
+-- thay đổi trạng thái của cửa hàng 
+DELIMITER //
 CREATE PROCEDURE ThayDoiTrangThai (IN ma_cua_hang INT)
 BEGIN
 	IF (SELECT trangthaiCH
@@ -65,6 +66,6 @@ BEGIN
 		SET trangthaiCH = 1
 		WHERE maCH = ma_cua_hang;
 		END IF;
-	END //
+END //
 -- trigger
 -- trigger tăng số lượng cửa hàng khi tăng thêm 1 chủ cửa hàng

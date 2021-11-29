@@ -292,6 +292,7 @@ VALUES
 
 CREATE TABLE CHU_CUA_HANG (
     maND INT NOT NULL,
+    soluongcuahang INT NOT NULL DEFAULT 1,
     PRIMARY KEY (maND),
     FOREIGN KEY (maND) REFERENCES NGUOI_DUNG(maND) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -299,17 +300,17 @@ CREATE TABLE CHU_CUA_HANG (
 INSERT INTO
     CHU_CUA_HANG
 VALUES
-    (12300000);
+    (12300000, DEFAULT);
 
 INSERT INTO
     CHU_CUA_HANG
 VALUES
-    (23400000);
+    (23400000, DEFAULT);
 
 INSERT INTO
     CHU_CUA_HANG
 VALUES
-    (34500000);
+    (34500000, DEFAULT);
 
 CREATE TABLE CUA_HANG (
     maCH INT NOT NULL,
@@ -318,6 +319,7 @@ CREATE TABLE CUA_HANG (
     diachiCH VARCHAR(100),
     sodienthoaiCH CHAR(10),
     trangthaiCH BOOL DEFAULT FALSE,
+    soluongnhanvien INT NOT NULL DEFAULT 0,
     --  FALSE la khong kich hoat, true la kich hoat. Bang hien thi duoi dang 0 / 1
     PRIMARY KEY (maCH),
     CHECK (
@@ -337,7 +339,8 @@ VALUES
         'Cửa hàng 123 01',
         'Quận 10 - Thành phố Hồ Chí Minh',
         '0775451111',
-        TRUE
+        TRUE,
+        DEFAULT
     );
 
 INSERT INTO
@@ -349,7 +352,8 @@ VALUES
         'Cửa hàng 123 02',
         'Quận Sơn Trà - Thành phố Đà Nẵng',
         '0775451112',
-        TRUE
+        TRUE,
+        DEFAULT
     );
 
 INSERT INTO
@@ -361,7 +365,8 @@ VALUES
         'Cửa hàng 123 03',
         'Quận Tân Phú - Thành phố Hồ Chí Minh',
         '0775451113',
-        FALSE
+        FALSE,
+        DEFAULT
     );
 
 -- chủ 2
@@ -374,7 +379,8 @@ VALUES
         'Cửa hàng 234 01',
         'Huyện Dầu Tiếng - Tỉnh Bình Dương',
         '0775452221',
-        TRUE
+        TRUE,
+        DEFAULT
     );
 
 INSERT INTO
@@ -386,7 +392,8 @@ VALUES
         'Cửa hàng 234 02',
         'Thành phố Thủ Đức - Thành phố Hồ Chí Minh',
         '0775452222',
-        TRUE
+        TRUE,
+        DEFAULT
     );
 
 -- chủ 3
@@ -399,7 +406,8 @@ VALUES
         'Cửa hàng 345 01',
         'Huyện KrôngAna - Tỉnh Đắk Lắk',
         '0775453278',
-        TRUE
+        TRUE,
+        DEFAULT
     );
 
 INSERT INTO
@@ -411,7 +419,8 @@ VALUES
         'Cửa hàng 345 02',
         'Thành phố Dĩ An - Tỉnh Bình Dương',
         '0775453277',
-        TRUE
+        TRUE,
+        DEFAULT
     );
 
 CREATE TABLE LAM_VIEC_TAI (
