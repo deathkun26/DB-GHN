@@ -18,7 +18,7 @@ if(isset($_POST["store_info"])){
     
         // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
-
+        $store_id = $_POST["store_id"];
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
         $result = storeInfo($store_id);
         echo "0\n";
@@ -36,12 +36,12 @@ if(isset($_POST["store_list"])){
     
         // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
-
+        $owner_id = $_POST["owner_id"];
         // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
         $result = filterStore($owner_id, 1);
         echo "0\n";
         while($row = $result->fetch_assoc()) {
-            echo "" . $row["maCH"] . "\t". $row["tenCH"] ."\n" ;
+            echo ""  . $row["tenCH"]. "\t". $row["maCH"] ."\n" ;
             
         }
     }
@@ -109,7 +109,7 @@ if(isset($_POST["DGN_list"])){
     $result = DGN();
     echo "0\n";
     while($row = $result->fetch_assoc()) {
-        echo "" . $row["sttDGN"] . " - ". $row["khuvucDGN"] . "\t". $row["diachiDGN"] ."\n" ; 
+        echo "" . $row["sttDGN"] . "-". $row["khuvucDGN"] . "\t". $row["diachiDGN"] ."\n" ; 
     }
 }
 

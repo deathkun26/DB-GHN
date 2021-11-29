@@ -47,6 +47,7 @@ else if(isset($_POST["filter_request"])){
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
         else {
+            echo "0\n";
             while($row = $result->fetch_assoc()) {
                 echo "". $row["code"] . "\t". $row["receiver"] ."\t" . $row["status"]."\t". $row["fee"]. "\n";
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n

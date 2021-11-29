@@ -5,7 +5,20 @@
     function getUser($username, $password) {
         global $db;
         $query = "SELECT * FROM nguoi_dung WHERE Tendangnhap = '$username' AND Matkhau='$password'";
-        return mysqli_query($db, $query);
+        $result = mysqli_query($db, $query);
+        
+        echo "0\n";
+        while($row = $result->fetch_assoc()) {
+            $query2 = "SELECT * FROM `chu_cua_hang` WHERE `maND`=" .$row["maND"];
+            $result2 = mysqli_query($db, $query2);
+            if (mysqli_num_rows($result2) > 0) {
+                echo "" . $row["maND"] . "\t". $row["hotenND"] . "\t1\n" ;
+            }
+            else {
+                echo "" . $row["maND"] . "\t". $row["hotenND"] . "\t0\n" ;
+            }
+        }
+        return  $result;
     }
 
     /* Thêm người dùng vào bảng User */
@@ -32,7 +45,7 @@
         if($time_to == "") {
             $time_to = "2970-01-01";
         } 
-        if ($status == ""){
+        if ($status == "-1"){
             $query = "SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
                     FROM DON_HANG
                     WHERE maCH = '$store_id' AND ngaytaoDH >= '$time_from' AND ngaytaoDH <= '$time_to' ORDER BY ngaytaoDH DESC";
@@ -133,8 +146,9 @@
     /* Lọc cửa hàng theo trạng thái */
     function filterStore($owner_id, $status){
         global $db;
-        $query = "SELECT * FROM cua_hang WHERE maCCH = '$owner_id' and trangthaiCH='$status"; 
+        $query = "SELECT * FROM `cua_hang` WHERE `maCCH` = ". $owner_id ." and `trangthaiCH`=".$status; 
         $results = mysqli_query($db, $query);
+        echo mysqli_error($db);
         return $results;
     }
     /* Thêm cửa hàng */
@@ -244,7 +258,7 @@
         if($time_to == "") {
             $time_to = "2970-01-01";
         } 
-        if ($status == ""){
+        if ($status == "-1"){
             $query = "SELECT `gui_yeu_cau`.`maYC` AS `maYC`,
                              `gui_yeu_cau`.`maVD` AS `maVD`,
                              `gui_yeu_cau`.`thoigiangui` AS `thoigiangui`,
