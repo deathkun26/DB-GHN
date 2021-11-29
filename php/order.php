@@ -109,7 +109,7 @@ if(isset($_POST["DGN_list"])){
     $result = DGN();
     echo "0\n";
     while($row = $result->fetch_assoc()) {
-        echo "" . $row["sttDGN"] . "-". $row["khuvucDGN"] . "\t". $row["diachiDGN"] ."\n" ; 
+        echo "" . $row["sttDGN"] . " - ". $row["khuvucDGN"] . "\t". $row["diachiDGN"] ."\n" ; 
     }
 }
 
@@ -220,5 +220,42 @@ if(isset($_POST["delete_order"])){
         deleteOrder($order_id);
     }
 }
+
+
+if(isset($_POST["save_order"])){
+    if(isset($_POST["order_id"]) && isset($_POST["size"]) && isset($_POST["resend_addr"])
+     && isset($_POST["recv_name"]) && isset($_POST["recv_phone"]) && isset($_POST["recv_addr"]) 
+     && isset($_POST["shift"]) &&  isset($_POST["status"])){
+        $errors = array();
+    
+        $order_id = $_POST["order_id"];
+        $resend_addr = $_POST["resend_addr"];
+        $shift = $_POST["shift"]; 
+        $size = $_POST["size"];
+        $recv_name = $_POST["recv_name"];
+        $recv_phone = $_POST["recv_phone"];
+        $recv_addr = $_POST["recv_addr"];
+        $status = $_POST["status"];
+        $tenDGN = "";
+
+        if(isset($_POST["tenDGN"])){
+            $tenDGN = $_POST["tenDGN"];
+        }
+
+        require './connection.php';
+
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Thêm dữ liệu vào bảng đơn hàng
+        //CALL capNhatDonHang(11111111, 'fucking tired - Tỉnh Hà Giang', TRUE, 500, 1, 'DTLT', '0123456789', 'sfs - Tỉnh Hà Giang', '2 - Sơn Trà' );
+        //CALL updateOrder($order_id, $resend_addr, $shift, $size, $status, $recv_name, $recv_phone, $recv_addr, $tenDGN);
+        global $db;
+        $result = mysqli_query($db, "CALL capNhatDonHang($order_id, '$resend_addr', $shift, $size, $status, '$recv_name', '$recv_phone', '$recv_addr','$tenDGN')");
+        echo mysqli_error($db);
+        echo "0\n";
+    }
+}
+
 
 ?>

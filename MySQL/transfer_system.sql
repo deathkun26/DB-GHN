@@ -1395,3 +1395,32 @@ VALUES
 --  VALUES ('HA000001', 'Giảm 15% cho khách hàng mới có đơn hàng trị giá hơn 100.000 VNĐ, tối đa 50.000 VNĐ', 0.15, 100000, 50000);
 --  INSERT INTO KHUYEN_MAI
 --  VALUES ('ME000001', 'Giảm 20% cho mọi đơn hàng trị giá hơn 100.000 VNĐ, tối đa 50.000 VNĐ', 0.2, 100000, 50000);
+
+DELIMITER //
+
+CREATE PROCEDURE capNhatDonHang(
+		IN ma_van_don INT,
+        IN dia_chi_tra_ve VARCHAR(60),
+        IN ca_lay BOOL,
+        IN kich_thuoc INT,
+        IN trang_thai TINYINT,
+		IN ho_ten VARCHAR(30),
+		IN so_dien_thoai CHAR(10),
+		IN dia_chi VARCHAR(60),
+        IN DGN VARCHAR(60)
+)
+BEGIN
+	DECLARE stt_DGN INT;
+    DECLARE khu_vuc_DGN VARCHAR(30);
+	SET stt_DGN = CONVERT(SUBSTRING_INDEX(DGN,' -',1),UNSIGNED INTEGER); -- test
+    SET khu_vuc_DGN = SUBSTRING_INDEX(DGN, "- ", -1);
+	UPDATE DON_HANG
+    SET diachitrahang = dia_chi_tra_ve, calayhang = ca_lay, kichthuocDH = kich_thuoc, trangthai = trang_thai, hotenNN = ho_ten, sodienthoaiNN = so_dien_thoai, diachiNN = dia_chi, ngaytaoDH = DEFAULT
+    WHERE maVD = ma_van_don;
+    UPDATE GUI_TOI
+    SET sttDGN = stt_DGN, khuvucDGN = khu_vuc_DGN
+    WHERE maVD = ma_van_don;
+    DELETE FROM SAN_PHAM WHERE maVD = ma_van_don;
+END //
+
+DELIMITER ;

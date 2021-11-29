@@ -66,6 +66,7 @@ public class LenDonHang : MonoBehaviour
     int kichThuoc;
     PhamVi phamVi;
     bool isWaiting = true;
+    string maDonNhap;
     #endregion
 
     private void Awake()
@@ -123,6 +124,7 @@ public class LenDonHang : MonoBehaviour
 
         count = 0;
 
+        maDonNhap = maVanDon;
         StartCoroutine(LayThongTinCuaHangHandler());
 
         tinhNhan.ClearOptions();
@@ -216,7 +218,7 @@ public class LenDonHang : MonoBehaviour
         if (ValidateInput(taoDonNhap: true))
             StartCoroutine(TaoDonHangHandler(0));
         else
-            Manager.instance.Alert("Thiếu thông tin người nhận");
+            Manager.instance.Alert("Thiếu thông tin người nhận và sản phẩm");
     }
 
     public void TaoDonHang()
@@ -281,6 +283,14 @@ public class LenDonHang : MonoBehaviour
         }
 
 
+    }
+
+    public void CapNhatDonNhap()
+    {
+        if (ValidateInput(taoDonNhap: true))
+            StartCoroutine(CapNhatDonNhapHandler());
+        else
+            Manager.instance.Alert("Thiếu thông tin người nhận và sản phẩm");
     }
 
     // Todo: Kiểm tra dữ liệu đã được nhập đủ chưa
@@ -416,12 +426,12 @@ public class LenDonHang : MonoBehaviour
         }
     }
 
-    IEnumerator CapNhatDonNhap(int trangthai)
+    IEnumerator CapNhatDonNhapHandler()
     {
         // * Data field
         WWWForm form = new WWWForm();
-        form.AddField("create_order", "");
-        form.AddField("store_id", Manager.instance.cuaHangCrt.Split('-')[1].Remove(0, 1));
+        form.AddField("save_order", "");
+        form.AddField("order_id", maDonNhap);
         form.AddField("size", 1000);
 
         if (coDiaChiTraHang.isOn)
@@ -432,7 +442,7 @@ public class LenDonHang : MonoBehaviour
         form.AddField("recv_name", hoTenNhan.text);
         form.AddField("recv_phone", sdtNhan.text);
         form.AddField("recv_addr", diaChiNhan.text + " - " + tinhNhan.captionText.text);
-        form.AddField("status", trangthai);
+        form.AddField("status", 0);
 
         form.AddField("shift", caLayHang.value);
 
@@ -457,12 +467,12 @@ public class LenDonHang : MonoBehaviour
             // * Request Success
             if (result[0] == "0")
             {
-                Debug.Log("Tạo đơn hàng thành công -> Mã vận đơn : " + result[1]);
-                StartCoroutine(ThemSanPhamMoiHandler(result[1]));
+                Debug.Log("Cập nhật đơn nháp thành công");
+                StartCoroutine(ThemSanPhamMoiHandler(maDonNhap));
             }
             else // * Request Fail
             {
-                Debug.Log("Tạo đơn hàng thất bại -> Error : " + result[0]);
+                Debug.Log("Cập nhật đơn nháp thất bại -> Error : " + result[0]);
             }
         }
     }
@@ -504,6 +514,7 @@ public class LenDonHang : MonoBehaviour
                 }
             }
         }
+        gameObject.SetActive(false);
     }
 
     // Todo : Lấy thông tin của đơn nháp
