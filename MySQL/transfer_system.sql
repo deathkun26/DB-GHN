@@ -668,7 +668,7 @@ CREATE TABLE DON_HANG (
 
 --  CHỦ 1 - CH1
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         11111111,
@@ -681,12 +681,11 @@ VALUES
         1230,
         1,
         1230001,
-        0,
-        NULL
+        0
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         11111112,
@@ -699,12 +698,11 @@ VALUES
         1230,
         1,
         1230001,
-        2,
-        NULL
+        2
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         11111113,
@@ -717,12 +715,11 @@ VALUES
         1230,
         1,
         1230001,
-        1,
-        NULL
+        1
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         11111114,
@@ -735,8 +732,7 @@ VALUES
         1230,
         0,
         1230001,
-        3,
-        NULL
+        3
     );
 
 INSERT INTO
@@ -746,7 +742,7 @@ VALUES
 
 --  CH2
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         12222221,
@@ -759,12 +755,11 @@ VALUES
         1231,
         1,
         1230002,
-        0,
-        NULL
+        0
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         12222222,
@@ -777,12 +772,11 @@ VALUES
         1231,
         0,
         1230002,
-        2,
-        NULL
+        2
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         12222223,
@@ -795,8 +789,7 @@ VALUES
         1231,
         0,
         1230002,
-        1,
-        NULL
+        1
     );
 
  --  CH3
@@ -805,7 +798,7 @@ VALUES
  VALUES (13333331, 100, 0, NULL, 'Nguyễn Lan Hương', '0775337654', "Quận Bình Thạnh - Thành phố Hồ Chí Minh", 1232, 1, 1230003, 2, NULL);
 -- CHỦ 2 - CH1
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         21111111,
@@ -818,13 +811,12 @@ VALUES
         2230,
         0,
         2340001,
-        1,
-        NULL
+        1
     );
 
 -- CH2
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         22222221,
@@ -837,12 +829,11 @@ VALUES
         2231,
         0,
         2340002,
-        0,
-        NULL
+        0
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         22222222,
@@ -855,13 +846,12 @@ VALUES
         2231,
         0,
         2340002,
-        3,
-        NULL
+        3
     );
 
 -- CHỦ 3 - CH1
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         31111111,
@@ -874,12 +864,11 @@ VALUES
         3230,
         1,
         3450001,
-        2,
-        NULL
+        2
     );
 
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         31111112,
@@ -892,13 +881,12 @@ VALUES
         3230,
         1,
         3450001,
-        0,
-        NULL
+        0
     );
 
 -- CH2
 INSERT INTO
-    DON_HANG
+    DON_HANG(maVD, kichthuocDH,khoiluongDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, maBT, calayhang, maCH, trangthai)
 VALUES
     (
         32222221,
@@ -911,8 +899,7 @@ VALUES
         3231,
         1,
         3450002,
-        3,
-        NULL
+        3
     );
 
 CREATE TABLE SAN_PHAM (
