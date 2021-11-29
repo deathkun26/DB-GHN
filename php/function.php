@@ -386,4 +386,12 @@
         echo "0\n";
         return $results;
     }
+    // Cập nhật người dùng
+    function update_user($owner_id, $name, $phone, $email){
+        global $db;
+        $query = "UPDATE nguoi_dung SET `hotenND`=\"" . $name . "\", `sothienthoaiND`=\"" . $phone . "\", `emailND`=\"" . $email . "\" WHERE maND= \"" . $owner_id . "\""; 
+        $results = mysqli_query($db, $query);
+        echo "0\n";
+        return $results;
+    }
 ?>
