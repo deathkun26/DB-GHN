@@ -26,16 +26,6 @@
             // Câu truy vấn kiểm tra tài khoản đăng nhập đúng hay không?
             require "./function.php";
             $results = getUser($username, $password);
-            if (mysqli_num_rows($results) === 1) {
-                echo "ừa, ok";
-                //echo "1"; // Login thành công
-                return;
-            }
-            else {
-                $errors[] = "Tên đăng nhập hoặc mật khẩu không đúng";
-                echo "del";
-                //echo "0"; // Sai tên đăng nhập / mật khẩu
-            }
         }
         else {
             $errors[] = "Nhập thiếu tên hoặc mật khẩu";
