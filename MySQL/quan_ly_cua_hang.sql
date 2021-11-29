@@ -16,7 +16,7 @@ ORDER BY COUNT(*) ASC;
 -- hiển thị danh sách tất cả các cửa hàng (mã, tên, trạng thái CH) mà chủ cửa hàng tên "Thái"
 SELECT CH.maCH, tenCH, trangthaiCH
 FROM NGUOI_DUNG AS ND, CUA_HANG AS CH
-WHERE ND.maND = CH.maCCH AND hotenND LIKE '%Thái'
+WHERE ND.maND = CH.maCCH AND hotenND LIKE '%Thái%'
 ORDER BY tenCH ASC;
 -- hiển thị danh sách các cửa hàng (mã, tên, trạng thái CH) mà nhân viên có mã 23400001 đang làm việc.
 SELECT CH.maCH, tenCH, diachiCH
@@ -25,14 +25,14 @@ WHERE LV.maCH = CH.maCH AND LV.maND = '23400001'
 ORDER BY tenCH ASC;
 
 -- hiển thị các cửa hàng mà có số lượng nhân viên nhiều hơn 1 người theo thứ tự từ lớn đến bé
-SELECT CH.maCH, tenCH, COUNT(*) AS soluongnhanvien
+SELECT CH.maCH, tenCH, COUNT(*) AS so_nhan_vien
 FROM LAM_VIEC_TAI AS LV, CUA_HANG AS CH
 WHERE LV.maCH = CH.maCH
 GROUP BY LV.maCH, tenCH HAVING COUNT(*) > 1
 ORDER BY COUNT(*) ASC;
 
 -- hiển thị các cửa hàng mà có nhiều hơn 1 đơn hàng, xếp theo thứ tự số lượng đơn hàng từ bé đến lớn
-SELECT CUA_HANG.maCH, tenCH, COUNT(*)
+SELECT CUA_HANG.maCH, tenCH, COUNT(*) AS so_don_hang
 FROM CUA_HANG, DON_HANG
 WHERE CUA_HANG.maCH = DON_HANG.maCH
 GROUP BY CUA_HANG.maCH, tenCH HAVING COUNT(*) > 1
@@ -77,6 +77,7 @@ BEGIN
         VALUES (ma_cua_hang, ma_chu, ten, dia_chi, so_dien_thoai);
 	END IF;
 END //
+DELIMITER ;
 
 DELETE FROM CUA_HANG WHERE maCH = 2340003;
 CALL themCuaHang(2340003, 23400009, 'Cửa hàng 234 03', 'Thành phố Thủ Đức - Thành phố Hồ Chí Minh', '0775452222');
@@ -95,7 +96,7 @@ BEGIN
 END//  
 
 DELIMITER ;
--- trigger khi xoá tài khoản người dùng có vai trò là chủ người dùng.
+-- trigger khi xoá tài khoản người dùng có vai trò là chủ cửa hàng
 DELIMITER //
 
 CREATE TRIGGER xoaTaiKhoanChuCH
