@@ -103,4 +103,40 @@ BEGIN
 END//  
 
 DELIMITER ;
+-- trigger cập nhật thời gian khi chỉnh sửa
+DELIMITER //
+
+CREATE TRIGGER capNhatThoiGianYC
+    AFTER UPDATE
+    ON YEU_CAU_HO_TRO FOR EACH ROW
+BEGIN
+	UPDATE GUI_YEU_CAU
+	SET thoigiangui = DATE(CURRENT_TIMESTAMP)
+	WHERE GUI_YEU_CAU.maYC = OLD.maYC;
+END//  
+
+DELIMITER ;
+
+-- yêu cầu số 4
+-- hàm trả về số yêu cầu hỗ trợ do một người dùng (có thể là chủ hoặc nhân viên) gửi tới
+DROP FUNCTION IF EXISTS tinhSoYeuCau;
+DELIMITER //
+
+CREATE FUNCTION tinhSoYeuCau(
+	ma_nguoi_dung INT
+) 
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	DECLARE result INT DEFAULT 0;
+	IF (ma_nguoi_dung >= 10000000 AND ma_nguoi_dung <= 99999999) THEN
+		SET result = (SELECT COUNT(*) FROM GUI_YEU_CAU WHERE GUI_YEU_CAU.maND = ma_nguoi_dung);
+	END IF;
+    RETURN result;
+END//
+
+DELIMITER ;
+
+SELECT tinhSoYeuCau(12300001);
+
 
