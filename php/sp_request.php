@@ -10,29 +10,26 @@
 */
 
 if(isset($_POST["add_request"])){
-    if(isset($_POST["user_id"]) && isset($_POST["order_id"]) && ($_POST["request_id"])
-                                && isset($_POST["request_type"]) && isset($_POST["content"])){
+    if(isset($_POST["user_id"]) && isset($_POST["order_id"]) && isset($_POST["request_type"]) && isset($_POST["content"])){
         $errors = array();
     
         $user_id = $_POST["user_id"];
         $order_id = $_POST["order_id"];
-        $request_id = $_POST["request_id"];
-        $type = $_POST["type"];
+        $type = $_POST["request_type"];
         $content = $_POST["content"];
 
         // Kết nối tới database
         require './connection.php';
         require "./function.php";
-        addRequest($user_id, $order_id, $request_id, $type, $content);
+        addRequest($user_id, $order_id, $type, $content);
     }
 }
 
 else if(isset($_POST["filter_request"])){
-    if(isset($_POST["user_id"]) && isset($_POST["order_id"]) && isset($_POST["status"]) && isset($_POST["time_from"]) && isset($_POST["time_to"])){
+    if(isset($_POST["user_id"]) && isset($_POST["status"]) && isset($_POST["time_from"]) && isset($_POST["time_to"])){
         $errors = array();
         
         $user_id = $_POST["user_id"];
-        $order_id = $_POST["order_id"];
         $status = $_POST["status"];
         $time_from = $_POST["time_from"];
         $time_to = $_POST["time_to"];
@@ -42,14 +39,14 @@ else if(isset($_POST["filter_request"])){
     
         // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
-        $result = filterRequest($user_id, $order_id, $status, $time_from, $time_to);
+        $result = filterRequest($user_id, $status, $time_from, $time_to);
         if(mysqli_num_rows($result) === 0) {
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        
         else {
-            echo "0\n";
+            echo ("0\n");
             while($row = $result->fetch_assoc()) {
-                echo "". $row["code"] . "\t". $row["receiver"] ."\t" . $row["status"]."\t". $row["fee"]. "\n";
+                echo "". $row["maYC"] ."\t" . $row["trangthaiYC"]. "\t". $row["maVD"] ."\t". $row["thoigiangui"] ."\t". $row["noidungYC"] ."\n";
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n
             }
         }
@@ -73,9 +70,9 @@ else if(isset($_POST["delete"])){
 }
 
 else if(isset($_POST["update"])){
-    if(isset($_POST["$request_id"]) && isset($_POST["$content"])){ // Nhận nhiều giá trị?  
+    if(isset($_POST["request_id"]) && isset($_POST["content"])){ // Nhận nhiều giá trị?  
         
-        $store_id = $_POST["store_id"];
+        $request_id = $_POST["request_id"];
         $content = $_POST["content"];
 
         // Kết nối tới database

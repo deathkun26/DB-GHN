@@ -26,6 +26,7 @@ if(isset($_POST["add_employee"])){
         // Thêm dữ liệu vào bảng đơn hàng
         addEmployee($store_id, $employee_id);
         
+    
         // Thêm dữ liệu vào bảng quản lí
 
             /////////////////////////////
@@ -61,10 +62,11 @@ else if(isset($_POST["employee_filter"])){
 }
 
 else if(isset($_POST["delete"])){
-    if(isset($_POST["$employee_id"])){
+    if(isset($_POST["employee_id"]) && isset($_POST["store_id"])){
     
         $employee_id = $_POST["employee_id"];
-    
+        $store_id = $_POST["store_id"];
+
         // Kết nối tới database
         require './connection.php';
     
@@ -72,7 +74,7 @@ else if(isset($_POST["delete"])){
         require "./function.php";
 
         // Xóa cửa hàng
-        deleteEmployee($employee_id);
+        deleteEmployee($employee_id,$store_id);
     }
 }
 
@@ -94,4 +96,41 @@ else if(isset($_POST["update"])){
     }
 }
 
+// Lấy thông tin nhân viên
+else if(isset($_POST["get_employee"])){
+    if(isset($_POST["employee_id"])){
+        $errors = array();
+    
+        $employee_id = $_POST["employee_id"];
+
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        getEmployee($employee_id);
+        
+    }
+}
+
+// Lấy danh sách tất cả cửa hàng
+else if(isset($_POST["all_store_list"])){
+    if(isset($_POST["owner_id"])){
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+        
+        $owner_id = $_POST["owner_id"];
+        // Chỉnh sửa cửa hàng (sửa trạng thái có 1 nút khác)
+        $result = filterStore($owner_id, "-1");
+        echo "0\n";
+        while($row = $result->fetch_assoc()) {
+            echo "" . $row["tenCH"] . " - ". $row["maCH"] ."\n" ;
+            
+        }
+    }
+}
 ?>

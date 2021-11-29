@@ -29,11 +29,10 @@ if(isset($_POST["store_list"])){
 }
 if(isset($_POST["new_store"])){
     // Mặc định khi thêm là cửa hàng chưa được kích hoạt
-    if(isset($_POST["store_id"]) && isset($_POST["owner_id"]) && isset($_POST["store_name"]) 
+    if(isset($_POST["owner_id"]) && isset($_POST["store_name"]) 
     && isset($_POST["store_addr"]) && isset($_POST["store_phone"])){
         $errors = array();
     
-        $store_id = $_POST["store_id"];
         $owner_id = $_POST["owner_id"];
         $store_name = $_POST["store_name"];
         $store_addr = $_POST["store_addr"]; 
@@ -46,12 +45,12 @@ if(isset($_POST["new_store"])){
         require "./function.php";
 
         // Thêm dữ liệu vào bảng đơn hàng
-        $res = addStore($store_id, $owner_id, $store_name, $store_addr, $store_phone);
+        $res = addStore($owner_id, $store_name, $store_addr, $store_phone);
         if ($res){
-            echo "1";
+            echo "0\n";
         }
         else {
-            echo "0";
+            echo "1\n";
         }
     }
 }
@@ -83,7 +82,7 @@ else if(isset($_POST["filter"])){
 }
 
 else if(isset($_POST["delete"])){
-    if(isset($_POST["$store_id"])){
+    if(isset($_POST["store_id"])){
         
         $store_id = $_POST["store_id"];
     
@@ -95,12 +94,13 @@ else if(isset($_POST["delete"])){
 
         // Xóa cửa hàng
         deleteStore($store_id);
+        echo "0\n";
     }
 }
 
 else if(isset($_POST["update"])){
-    if(isset($_POST["$store_id"]) && isset($_POST["$store_name"])
-                                  && isset($_POST["$store_addr"]) && isset($_POST["$store_phone"])){
+    if(isset($_POST["store_id"]) && isset($_POST["store_name"])
+                                  && isset($_POST["store_addr"]) && isset($_POST["store_phone"])){
         
         $store_id = $_POST["store_id"];
         $store_name = $_POST["store_name"];
@@ -119,7 +119,7 @@ else if(isset($_POST["update"])){
 }
 
 else if(isset($_POST["activate"])){
-    if(isset($_POST["$store_id"])){
+    if(isset($_POST["store_id"])){
         
         $store_id = $_POST["store_id"];
 
@@ -130,6 +130,7 @@ else if(isset($_POST["activate"])){
         require "./function.php";
 
         activateStore($store_id);
+        echo "0\n";
     }
 }
 ?>

@@ -191,7 +191,7 @@ if(isset($_POST["don_nhap"])){
             }
             $result2 = filterItemByOrderId($order_id);
             while($row = $result2->fetch_assoc()) {
-                echo "" . $row["sttSP"] . "\t". $row["tenSP"] ."-". $row["soluongSP"] ."\t" . $row["khoiluongSP"]."\n" ;
+                echo "" . $row["sttSP"] . "\t". $row["tenSP"] ."\t". $row["soluongSP"] ."\t" . $row["khoiluongSP"]."\n" ;
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n
             }
         }
