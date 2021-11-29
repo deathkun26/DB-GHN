@@ -54,7 +54,7 @@ else if(isset($_POST["filter_request"])){
 }
 
 else if(isset($_POST["delete"])){
-    if(isset($_POST["$request_id"])){
+    if(isset($_POST["request_id"])){
     
         $request_id = $_POST["request_id"];
     

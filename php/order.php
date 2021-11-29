@@ -128,10 +128,10 @@ if(isset($_POST["create_order"])){
         $recv_name = $_POST["recv_name"];
         $recv_phone = $_POST["recv_phone"];
         $recv_addr = $_POST["recv_addr"];
-        $status = $_POST["quantity"];
+        $status = $_POST["status"];
         $tenDGN = "";
 
-        if(isset($_POST["status"])){
+        if(isset($_POST["tenDGN"])){
             $tenDGN = $_POST["tenDGN"];
         }
 
@@ -186,7 +186,7 @@ if(isset($_POST["don_nhap"])){
         else {
             echo "0\n";
             while($row = $result->fetch_assoc()) {
-                echo "" . $row["diachitrahang"] . "\t". $row["sttDGN"] ."-". $row["khuvucDGN"] ."\t" . $row["calayhang"]."\t". $row["hotenNN"]. "\t" . "sodienthoaiNN". "\t" . "diachiNN"."\n" ;
+                echo "" . $row["diachitrahang"] . "\t". $row["sttDGN"] ." - ". $row["khuvucDGN"] ."\t" . $row["calayhang"]."\t". $row["hotenNN"]. "\t" . $row["sodienthoaiNN"]. "\t" . $row["diachiNN"]."\n" ;
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n
             }
             $result2 = filterItemByOrderId($order_id);
@@ -197,4 +197,21 @@ if(isset($_POST["don_nhap"])){
         }
     }
 }
+
+if(isset($_POST["delete_order"])){
+    if(isset($_POST["order_id"])){
+    
+        $order_id = $_POST["order_id"];
+
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+
+        // Xóa cửa hàng
+        deleteOrder($order_id);
+    }
+}
+
 ?>

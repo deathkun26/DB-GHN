@@ -99,7 +99,8 @@
                         `don_hang`.`hotenNN` AS `hotenNN`,
                         `don_hang`.`sodienthoaiNN` AS `sodienthoaiNN`,
                         `don_hang`.`diachiNN` AS `diachiNN` 
-                        FROM `don_hang`, `gui_toi` WHERE `don_hang`.`maVD`=".$order_id; 
+                    FROM `don_hang`, `gui_toi` 
+                    WHERE `don_hang`.`maVD`=".$order_id ." AND `gui_toi`.`maVD` = `don_hang`.`maVD`"; 
         $results = mysqli_query($db, $query);
         echo mysqli_error($db);
         return $results;
@@ -111,7 +112,7 @@
         $query = "SELECT * FROM san_pham WHERE maVD=".$order_id; 
         $results = mysqli_query($db, $query);
         echo mysqli_error($db);
-        echo var_dump($results);
+        //echo var_dump($results);
         return $results;
     }
 
@@ -121,21 +122,39 @@
         global $db;
         $query = "SELECT MAX(maVD) AS maVD FROM `don_hang`";
         $results = mysqli_query($db, $query);
+        echo mysqli_error($db);
+
         $maVD = "";
         while($row = $results->fetch_assoc()) {
            $maVD = (int)$row["maVD"];                 
         }
+        
         $maVD = $maVD+1;
-        $query = "INSERT INTO don_hang(maVD, kichthuocDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, calayhang, maCH,trangthai, ngaytaoDH)
-                  VALUES('$maVD', '$size', '$resend_addr', '$recv_name', '$recv_phone', '$recv_addr', '$shift', '$store_id', '$status', 'DATE()')"; 
+        if($resend_addr=="")
+        {
+            $query = "INSERT INTO don_hang(maVD, kichthuocDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, calayhang, maCH,trangthai, ngaytaoDH)
+                  VALUES('$maVD', '$size', NULL, '$recv_name', '$recv_phone', '$recv_addr', '$shift', '$store_id', '$status', \"" . date("Y/m/d") . "\")"; 
+        }
+        else
+        {
+            $query = "INSERT INTO don_hang(maVD, kichthuocDH, diachitrahang, hotenNN, sodienthoaiNN, diachiNN, calayhang, maCH,trangthai, ngaytaoDH)
+                  VALUES('$maVD', '$size', '$resend_addr', '$recv_name', '$recv_phone', '$recv_addr', '$shift', '$store_id', '$status', \"" . date("Y/m/d") . "\")"; 
+        }
+
+
         $results = mysqli_query($db, $query);
         
+        echo mysqli_error($db);
         echo "0\n" . $maVD;
         
-        // THêm vào điểm giao nhận
-        $tenDGN = explode("-", $tenDGN);
-        $query = "INSERT INTO gui_toi VALUES('$maVD', '$tenDGN[0]', '$tenDGN[1]')"; 
-        $results = mysqli_query($db, $query);
+        // Thêm vào điểm giao nhận
+        if($tenDGN != "")
+        {
+            $tenDGN = explode("-", $tenDGN);
+            $query = "INSERT INTO gui_toi VALUES('$maVD', '$tenDGN[0]', '$tenDGN[1]')"; 
+            $results = mysqli_query($db, $query);
+            echo mysqli_error($db);
+        }
         return $results;
     }
     function addItem($order_id, $name, $weight, $quantity){
@@ -153,6 +172,19 @@
         echo "0";
         return $results;
     }
+
+    function deleteOrder($order_id){
+        global $db;
+        $query = "DELETE FROM don_hang WHERE maVD = '$order_id'"; 
+        echo mysqli_error($db);
+        $results = mysqli_query($db, $query);
+        echo "0\n";
+        $query = "DELETE FROM san_pham WHERE maVD = '$order_id'"; 
+        echo mysqli_error($db);
+        $results = mysqli_query($db, $query);
+        return $results;
+    }
+
     function DGN(){
         global $db;
         $query = "SELECT * FROM diem_giao_nhan"; 
@@ -373,8 +405,10 @@
     /* Xóa yêu cầu hỗ trợ */
     function deleteRequest($request_id){
         global $db;
-        $query = "DELETE FROM yeu_cau_ho_tro WHERE maCY='$request_id'"; 
+        $query = "DELETE FROM yeu_cau_ho_tro WHERE maYC='$request_id'"; 
         $results = mysqli_query($db, $query);
+        echo mysqli_error($db);
+        echo "0\n";
         return $results;
     }
     /* Sửa yêu cầu (Cập nhật thời gian?) */
@@ -389,8 +423,9 @@
     // Cập nhật người dùng
     function update_user($owner_id, $name, $phone, $email){
         global $db;
-        $query = "UPDATE nguoi_dung SET `hotenND`=\"" . $name . "\", `sothienthoaiND`=\"" . $phone . "\", `emailND`=\"" . $email . "\" WHERE maND= \"" . $owner_id . "\""; 
+        $query = "UPDATE nguoi_dung SET `hotenND`=\"" . $name . "\", `sodienthoaiND`=\"" . $phone . "\", `emailND`=\"" . $email . "\" WHERE maND= \"" . $owner_id . "\""; 
         $results = mysqli_query($db, $query);
+        echo mysqli_error($db);
         echo "0\n";
         return $results;
     }
