@@ -26,6 +26,9 @@ CREATE TABLE NGUOI_DUNG (
     )
 );
 
+CREATE INDEX index_hoten
+ON NGUOI_DUNG(hotenND);
+
 --  chủ1
 INSERT INTO
     NGUOI_DUNG
@@ -156,10 +159,7 @@ CREATE TABLE THONG_TIN_NGAN_HANG (
     sotaikhoan VARCHAR(20) NOT NULL,
     tennganhang VARCHAR(30) NOT NULL,
     PRIMARY KEY (maND, tentaikhoan, sotaikhoan, tennganhang),
-    CHECK (
-        maND >= 10000000
-        AND maND <= 99999999
-    )
+    FOREIGN KEY (maND) REFERENCES NGUOI_DUNG(maND) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO
