@@ -75,7 +75,7 @@ DELIMITER ;
 CALL themNhanVien(1230001, 12300003); -- thêm Dân vào CH1 of chủ 1
 
 -- yêu cầu số 3
--- trigger phân loại người dùng
+-- trigger cập nhật số lượng nhân viên của một cửa hàng
 DELIMITER //
 
 CREATE TRIGGER capNhatSoLuongNV
@@ -124,8 +124,8 @@ CREATE FUNCTION tinhTongSoNhanVien(
 RETURNS INT
 DETERMINISTIC
 BEGIN
-	DECLARE result INT;
-	IF ma_chu_cua_hang >= 10000000 OR ma_chu_cua_hang <= 99999999 THEN
+	DECLARE result INT DEFAULT 0;
+	IF ma_chu_cua_hang >= 10000000 AND ma_chu_cua_hang <= 99999999 THEN
 		SET result = (SELECT COUNT(*) FROM (SELECT DISTINCT LAM_VIEC_TAI.maND, COUNT(*) FROM CUA_HANG, LAM_VIEC_TAI WHERE CUA_HANG.maCCH = 12300000 AND CUA_HANG.maCH = LAM_VIEC_TAI.maCH GROUP BY LAM_VIEC_TAI.maND) AS T);
 	END IF;
     RETURN result;
