@@ -186,7 +186,14 @@ if(isset($_POST["don_nhap"])){
         else {
             echo "0\n";
             while($row = $result->fetch_assoc()) {
-                echo "" . $row["diachitrahang"] . "\t". $row["sttDGN"] ." - ". $row["khuvucDGN"] ."\t" . $row["calayhang"]."\t". $row["hotenNN"]. "\t" . $row["sodienthoaiNN"]. "\t" . $row["diachiNN"]."\n" ;
+                if(isset($row["sttDGN"]))
+                {
+                    echo "" . $row["diachitrahang"] . "\t". $row["sttDGN"] ." - ". $row["khuvucDGN"] ."\t" . $row["calayhang"]."\t". $row["hotenNN"]. "\t" . $row["sodienthoaiNN"]. "\t" . $row["diachiNN"]."\n" ;
+                }
+                else
+                {
+                    echo "" . $row["diachitrahang"] . "\t". " - " ."\t" . $row["calayhang"]."\t". $row["hotenNN"]. "\t" . $row["sodienthoaiNN"]. "\t" . $row["diachiNN"]."\n" ;
+                }
                 // format echo: 1\tMinh Toan\tDang giao\t25000\n
             }
             $result2 = filterItemByOrderId($order_id);

@@ -92,15 +92,23 @@
     /*Lọc thông tin đơn theo mã đơn */
     function filterOrderByOrderId($order_id){
         global $db;
-        $query = "SELECT `don_hang`.`diachitrahang` AS `diachitrahang`, 
-                        `gui_toi`.`sttDGN` AS `sttDGN`,
-                        `gui_toi`.`khuvucDGN` AS `khuvucDGN`,
-                        `don_hang`.`calayhang` AS `calayhang`,
-                        `don_hang`.`hotenNN` AS `hotenNN`,
-                        `don_hang`.`sodienthoaiNN` AS `sodienthoaiNN`,
-                        `don_hang`.`diachiNN` AS `diachiNN` 
-                    FROM `don_hang`, `gui_toi` 
-                    WHERE `don_hang`.`maVD`=".$order_id ." AND `gui_toi`.`maVD` = `don_hang`.`maVD`"; 
+        $query = "SELECT * FROM gui_toi WHERE maVD=" .$order_id;
+        $results = mysqli_query($db, $query);
+        if (mysqli_num_rows($results) > 0) {
+            $query = "SELECT `don_hang`.`diachitrahang` AS `diachitrahang`, 
+                            `gui_toi`.`sttDGN` AS `sttDGN`,
+                            `gui_toi`.`khuvucDGN` AS `khuvucDGN`,
+                            `don_hang`.`calayhang` AS `calayhang`,
+                            `don_hang`.`hotenNN` AS `hotenNN`,
+                            `don_hang`.`sodienthoaiNN` AS `sodienthoaiNN`,
+                            `don_hang`.`diachiNN` AS `diachiNN` 
+                        FROM `don_hang`, `gui_toi` 
+                        WHERE `don_hang`.`maVD`=".$order_id ." AND `gui_toi`.`maVD` = `don_hang`.`maVD`"; 
+        }
+        else{
+            $query = "SELECT `diachitrahang`, `calayhang`, `hotenNN`, `sodienthoaiNN`, `diachiNN` FROM `don_hang`
+                        WHERE `don_hang`.`maVD`= ". $order_id; 
+        }
         $results = mysqli_query($db, $query);
         echo mysqli_error($db);
         return $results;
@@ -163,12 +171,20 @@
         $results = mysqli_query($db, $query);
         $sttSP = "";
         while($row = $results->fetch_assoc()) {
-            $sttSP = (int)$row["sttSP"];                 
+            $sttSP = $row["sttSP"];                 
         }
-        $sttSP = $sttSP + 1;
-        $query = "INSERT INTO san_pham VALUES('$order_id', '$sttSP', '$name', '$quantity', '$weight')"; 
+        echo mysqli_error($db);
+
+        $sttSP_next = 1;
+        if($sttSP != NULL)
+        {
+            $sttSP_next = (int)$sttSP + 1;
+        }
+
+        $query = "INSERT INTO san_pham VALUES('$order_id', '$sttSP_next', '$name', '$quantity', '$weight')"; 
         $results = mysqli_query($db, $query);
         
+        echo mysqli_error($db);
         echo "0";
         return $results;
     }
