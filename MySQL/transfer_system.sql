@@ -26,7 +26,7 @@ CREATE TABLE NGUOI_DUNG (
     )
 );
 
---chủ1
+--  chủ1
 INSERT INTO
     NGUOI_DUNG
 VALUES
@@ -40,7 +40,7 @@ VALUES
         'tvt1915121'
     );
 
---nhân viên
+-- nhân viên
 INSERT INTO
     NGUOI_DUNG
 VALUES
@@ -80,7 +80,7 @@ VALUES
         'tvt1915124'
     );
 
---chủ 2
+-- chủ 2
 INSERT INTO
     NGUOI_DUNG
 VALUES
@@ -94,7 +94,7 @@ VALUES
         'tvt1915121'
     );
 
--- nhân viên
+--  nhân viên
 INSERT INTO
     NGUOI_DUNG
 VALUES
@@ -121,7 +121,7 @@ VALUES
         'tvt1915121'
     );
 
---chủ 3
+-- chủ 3
 INSERT INTO
     NGUOI_DUNG
 VALUES
@@ -135,7 +135,7 @@ VALUES
         'tvt1915121'
     );
 
--- nhân viên
+--  nhân viên
 INSERT INTO
     NGUOI_DUNG
 VALUES
@@ -152,7 +152,7 @@ VALUES
 CREATE TABLE THONG_TIN_NGAN_HANG (
     maND INT NOT NULL,
     tentaikhoan VARCHAR(30) NOT NULL,
-    -- ten tai khoan la ten nguoi dung viet khong dau
+    --  ten tai khoan la ten nguoi dung viet khong dau
     sotaikhoan VARCHAR(20) NOT NULL,
     tennganhang VARCHAR(30) NOT NULL,
     PRIMARY KEY (maND, tentaikhoan, sotaikhoan, tennganhang),
@@ -273,7 +273,7 @@ INSERT INTO
 VALUES
     (12300003);
 
---------------------
+-- -- -- -- -- -- -- -- -- -- 
 INSERT INTO
     NHAN_VIEN
 VALUES
@@ -284,7 +284,7 @@ INSERT INTO
 VALUES
     (23400002);
 
---------------------------------------
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 INSERT INTO
     NHAN_VIEN
 VALUES
@@ -318,7 +318,7 @@ CREATE TABLE CUA_HANG (
     diachiCH VARCHAR(100),
     sodienthoaiCH CHAR(10),
     trangthaiCH BOOL DEFAULT FALSE,
-    -- FALSE la khong kich hoat, true la kich hoat. Bang hien thi duoi dang 0 / 1
+    --  FALSE la khong kich hoat, true la kich hoat. Bang hien thi duoi dang 0 / 1
     PRIMARY KEY (maCH),
     CHECK (
         maCH >= 1000000
@@ -327,7 +327,7 @@ CREATE TABLE CUA_HANG (
     FOREIGN KEY (maCCH) REFERENCES CHU_CUA_HANG(maND) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---CHỦ 1
+-- CHỦ 1
 INSERT INTO
     CUA_HANG
 VALUES
@@ -364,7 +364,7 @@ VALUES
         FALSE
     );
 
---chủ 2
+-- chủ 2
 INSERT INTO
     CUA_HANG
 VALUES
@@ -389,7 +389,7 @@ VALUES
         TRUE
     );
 
---chủ 3
+-- chủ 3
 INSERT INTO
     CUA_HANG
 VALUES
@@ -422,7 +422,7 @@ CREATE TABLE LAM_VIEC_TAI (
     FOREIGN KEY (maND) REFERENCES NHAN_VIEN(maND) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---chủ 1
+-- chủ 1
 INSERT INTO
     LAM_VIEC_TAI
 VALUES
@@ -443,7 +443,7 @@ INSERT INTO
 VALUES
     (1230003, 12300001);
 
---chủ 2
+-- chủ 2
 INSERT INTO
     LAM_VIEC_TAI
 VALUES
@@ -464,7 +464,7 @@ INSERT INTO
 VALUES
     (2340002, 23400002);
 
---chủ 3
+-- chủ 3
 INSERT INTO
     LAM_VIEC_TAI
 VALUES
@@ -548,7 +548,7 @@ VALUES
     );
 
 CREATE TABLE DIEM_GIAO_NHAN (
-    -- dia chi cua cac buu cuc
+    --  dia chi cua cac buu cuc
     sttDGN INT NOT NULL,
     khuvucDGN VARCHAR(30) NOT NULL,
     diachiDGN VARCHAR(100),
@@ -581,6 +581,7 @@ INSERT INTO
 VALUES
     (
         3,
+        'Tân Phú',
         'Tân Phú - Thành phố Hồ Chí Minh',
         '0775457880'
     );
@@ -628,23 +629,22 @@ VALUES
 CREATE TABLE DON_HANG (
     maVD INT NOT NULL,
     kichthuocDH INT NOT NULL,
-    -- luu the tich
+    --  luu the tich
     khoiluongDH INT,
     diachitrahang VARCHAR(60),
-    -- mac dinh la dia chi cua hang or others + app handle
+    --  mac dinh la dia chi cua hang or others + app handle
     hotenNN VARCHAR(30),
     sodienthoaiNN CHAR(10),
     diachiNN VARCHAR(60),
     maBT INT,
     calayhang BOOL DEFAULT TRUE,
-    -- true la ca sang, false la ca chieu
+    --  true la ca sang, false la ca chieu
     maCH INT NOT NULL,
     trangthai TINYINT DEFAULT 0,
-    -- trang thai nhap, đang xử lý, dang giao, hoan thanh
+    --  trang thai nhap, đang xử lý, dang giao, hoan thanh
     ngaytaoDH DATE DEFAULT (DATE(CURRENT_TIMESTAMP)),
-    -- THIEU
+    --  THIEU
     PRIMARY KEY (maVD),
-    FOREIGN KEY (sttDGN, khuvucDGN) REFERENCES DIEM_GIAO_NHAN(sttDGN, khuvucDGN) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (maBT) REFERENCES BUU_TA(maBT) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (maCH) REFERENCES CUA_HANG(maCH) ON UPDATE CASCADE ON DELETE CASCADE,
     CHECK (
@@ -657,14 +657,14 @@ CREATE TABLE DON_HANG (
     )
 );
 
--- CHỦ 1 - CH1
+--  CHỦ 1 - CH1
 INSERT INTO
     DON_HANG
 VALUES
     (
         11111111,
         100,
-        NULL,
+        500,
         NULL,
         'Trần Quang Huy',
         '0775337890',
@@ -735,7 +735,7 @@ INSERT INTO
 VALUES
     (11111115, 300, NULL, 1230001);
 
--- CH2
+--  CH2
 INSERT INTO
     DON_HANG
 VALUES
@@ -790,10 +790,11 @@ VALUES
         NULL
     );
 
--- -- CH3
--- INSERT INTO DON_HANG
--- VALUES (13333331, 100, NULL, NULL, 'Nguyễn Lan Hương', '0775337654', "Quận Bình Thạnh - Thành phố Hồ Chí Minh", 3, 'Tân Phú', 1232, 1, 1230003, 2, NULL);
---CHỦ 2 - CH1
+ --  CH3
+ DELETE FROM DON_HANG WHERE maVD = 13333331;
+ INSERT INTO DON_HANG
+ VALUES (13333331, 100, 0, NULL, 'Nguyễn Lan Hương', '0775337654', "Quận Bình Thạnh - Thành phố Hồ Chí Minh", 1232, 1, 1230003, 2, NULL);
+-- CHỦ 2 - CH1
 INSERT INTO
     DON_HANG
 VALUES
@@ -812,7 +813,7 @@ VALUES
         NULL
     );
 
---CH2
+-- CH2
 INSERT INTO
     DON_HANG
 VALUES
@@ -849,7 +850,7 @@ VALUES
         NULL
     );
 
---CHỦ 3 - CH1
+-- CHỦ 3 - CH1
 INSERT INTO
     DON_HANG
 VALUES
@@ -886,7 +887,7 @@ VALUES
         NULL
     );
 
---CH2
+-- CH2
 INSERT INTO
     DON_HANG
 VALUES
@@ -911,12 +912,12 @@ CREATE TABLE SAN_PHAM (
     tenSP VARCHAR(30),
     soluongSP INT,
     khoiluongSP INT,
-    -- don vi gam
+    --  don vi gam
     PRIMARY KEY (maVD, sttSP),
     FOREIGN KEY (maVD) REFERENCES DON_HANG(maVD) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
---CHUR1-CH1-DH1
+-- CHUR1-CH1-DH1
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -932,7 +933,7 @@ INSERT INTO
 VALUES
     (11111111, 3, 'Sách 1', 2, 10);
 
--- CH1-DH2
+--  CH1-DH2
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -943,7 +944,7 @@ INSERT INTO
 VALUES
     (11111112, 2, 'Thước 1', 1, 3);
 
--- CH1-DH3
+--  CH1-DH3
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -964,7 +965,7 @@ INSERT INTO
 VALUES
     (11111113, 4, 'Thước 1', 1, 3);
 
--- CH1-DH4
+--  CH1-DH4
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -980,7 +981,7 @@ INSERT INTO
 VALUES
     (11111114, 3, 'Sách 2', 2, 10);
 
--- CH2-DH1
+--  CH2-DH1
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -991,13 +992,13 @@ INSERT INTO
 VALUES
     (12222221, 2, 'Thước 1', 2, 5);
 
--- CH2-DH2
+--  CH2-DH2
 INSERT INTO
     SAN_PHAM
 VALUES
     (12222222, 1, 'Bút 2', 10, 50);
 
--- CH2-DH3
+--  CH2-DH3
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -1013,20 +1014,20 @@ INSERT INTO
 VALUES
     (12222223, 3, 'Sách 3', 2, 50);
 
--- -- CH3-DH1
--- INSERT INTO SAN_PHAM
--- VALUES (13333331, 1, 'Sách 1', 20, 100);
--- INSERT INTO SAN_PHAM
--- VALUES (13333331, 2, 'Bút 1', 5, 100);
--- INSERT INTO SAN_PHAM
--- VALUES (13333331, 3, 'Sách 2', 20, 100);
---CHỦ 2-CH1-DH1
+--  --  CH3-DH1
+--  INSERT INTO SAN_PHAM
+--  VALUES (13333331, 1, 'Sách 1', 20, 100);
+--  INSERT INTO SAN_PHAM
+--  VALUES (13333331, 2, 'Bút 1', 5, 100);
+--  INSERT INTO SAN_PHAM
+--  VALUES (13333331, 3, 'Sách 2', 20, 100);
+-- CHỦ 2-CH1-DH1
 INSERT INTO
     SAN_PHAM
 VALUES
     (21111111, 1, 'Giày 2', 1, 100);
 
--- CH2-DH1
+--  CH2-DH1
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -1037,7 +1038,7 @@ INSERT INTO
 VALUES
     (22222221, 2, 'Giày 2', 1, 100);
 
---CH2-DH2
+-- CH2-DH2
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -1048,7 +1049,7 @@ INSERT INTO
 VALUES
     (22222222, 2, 'Sandal 3', 1, 100);
 
--- CHỦ 3-CH1-DH1
+--  CHỦ 3-CH1-DH1
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -1059,13 +1060,13 @@ INSERT INTO
 VALUES
     (31111111, 2, 'Quần 1', 1, 100);
 
---CH1-DH2
+-- CH1-DH2
 INSERT INTO
     SAN_PHAM
 VALUES
     (31111112, 1, 'Quần 2', 2, 200);
 
--- CH2-DH1
+--  CH2-DH1
 INSERT INTO
     SAN_PHAM
 VALUES
@@ -1085,85 +1086,85 @@ CREATE TABLE GUI_TOI (
     FOREIGN KEY (sttDGN, khuvucDGN) REFERENCES DIEM_GIAO_NHAN(sttDGN, khuvucDGN) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- CHỦ 1
---CH1-DH1
+--  CHỦ 1
+-- CH1-DH1
 INSERT INTO
     GUI_TOI
 VALUES
     (11111111, 1, 'Quận 10');
 
--- CH1-DH2
+--  CH1-DH2
 INSERT INTO
     GUI_TOI
 VALUES
     (11111112, 1, 'Quận 10');
 
--- CH1-DH3
+--  CH1-DH3
 INSERT INTO
     GUI_TOI
 VALUES
     (11111113, 1, 'Quận 10');
 
--- CH1-DH4
+--  CH1-DH4
 INSERT INTO
     GUI_TOI
 VALUES
     (11111114, 1, 'Quận 10');
 
--- CH2-DH1
+--  CH2-DH1
 INSERT INTO
     GUI_TOI
 VALUES
     (12222221, 2, 'Sơn Trà');
 
--- CH2-DH2
+--  CH2-DH2
 INSERT INTO
     GUI_TOI
 VALUES
     (12222222, 2, 'Sơn Trà');
 
--- CH2-DH3
+--  CH2-DH3
 INSERT INTO
     GUI_TOI
 VALUES
     (12222223, 2, 'Sơn Trà');
 
--- -- CH3-DH1
--- INSERT INTO GUI_TOI
--- VALUES (13333331, 3, 'Tân Phú');
---CHỦ 2
--- CH1-DH1
+--  --  CH3-DH1
+--  INSERT INTO GUI_TOI
+--  VALUES (13333331, 3, 'Tân Phú');
+-- CHỦ 2
+--  CH1-DH1
 INSERT INTO
     GUI_TOI
 VALUES
     (21111111, 4, 'Dầu Tiếng');
 
--- CH2-DH1
+--  CH2-DH1
 INSERT INTO
     GUI_TOI
 VALUES
     (22222221, 5, 'Thủ Đức');
 
--- CH2-DH2
+--  CH2-DH2
 INSERT INTO
     GUI_TOI
 VALUES
     (22222222, 5, 'Thủ Đức');
 
---CHỦ 3
--- CH1-DH1
+-- CHỦ 3
+--  CH1-DH1
 INSERT INTO
     GUI_TOI
 VALUES
     (31111111, 6, 'KrôngAna');
 
--- CH1-DH1
+--  CH1-DH1
 INSERT INTO
     GUI_TOI
 VALUES
     (31111112, 6, 'KrôngAna');
 
--- CH2-DH1
+--  CH2-DH1
 INSERT INTO
     GUI_TOI
 VALUES
@@ -1193,7 +1194,7 @@ CREATE TABLE YEU_CAU_HO_TRO (
     loaiYC TINYINT NOT NULL,
     noidungYC VARCHAR(1000),
     trangthaiYC TINYINT NOT NULL DEFAULT 0,
-    -- 0: da gui / 1: dang xu ly / 2: hoan thanh
+    --  0: da gui / 1: dang xu ly / 2: hoan thanh
     PRIMARY KEY(maYC),
     CHECK (
         maYC >= 10000000
@@ -1290,111 +1291,111 @@ INSERT INTO
 VALUES
     (23400000, 99000006, 22222221);
 
--- CREATE TABLE NHOM_QUYEN (
---     maCCH CHAR(15) NOT NULL,
---     tenNQ VARCHAR(30) NOT NULL,
---     motaNQ VARCHAR(1000),
---     PRIMARY KEY (maCCH, tenNQ),
---     FOREIGN KEY (maCCH) REFERENCES CHU_CUA_HANG(maND)
---     ON UPDATE CASCADE
---     ON DELETE CASCADE
--- );
--- INSERT INTO NHOM_QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Quyền cao nhất của người dùng');
--- INSERT INTO NHOM_QUYEN
--- VALUES ('000000000000004', 'Nhân viên', 'Quyền mặc định của nhân viên thuộc 1 cửa hàng');
--- CREATE TABLE QUYEN (
---     maCCH CHAR(15) NOT NULL,
---     tenNQ VARCHAR(30) NOT NULL,
---     Quyen VARCHAR(500),
---     PRIMARY KEY (maCCH, tenNQ),
---     FOREIGN KEY (maCCH) REFERENCES NHOM_QUYEN(maCCH)
---     ON UPDATE CASCADE
---     ON DELETE CASCADE,
---     FOREIGN KEY (tenNQ) REFERENCES NHOM_QUYEN(tenNQ)
---     ON UPDATE CASCADE
---     ON DELETE CASCADE
--- );
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Cập nhật cửa hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Thêm nhân viên vào cửa hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Thêm người dùng vào nhóm quyền');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem cửa hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem danh sách nhân viên của cửa hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xoá nhân viên khỏi cửa hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Chỉnh sửa đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Tạo đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Huỷ đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem chi tiết đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem danh sách đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Yêu cầu giao lại đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Yêu cầu trả hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Cập nhật yêu cầu hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Tạo yêu cầu hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem chi tiết yêu cầu.hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem danh sách yêu cầu hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Chỉnh sửa đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Tạo đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Huỷ đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Xem chi tiết đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Xem danh sách đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Yêu cầu giao lại đơn hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Yêu cầu trả hàng');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Cập nhật yêu cầu hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Tạo yêu cầu hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Xem chi tiết yêu cầu.hỗ trợ');
--- INSERT INTO QUYEN
--- VALUES ('000000000000002', 'Nhân viên', 'Xem danh sách yêu cầu hỗ trợ');
--- CREATE TABLE PHAN_QUYEN (
---     maCH CHAR(20) NOT NULL,
---     maNV CHAR(15) NOT NULL,
---     maCCH CHAR(15) NOT NULL,
---     tenNQ VARCHAR(30) NOT NULL,
---     PRIMARY KEY (maCH, maNV),
---     FOREIGN KEY (maCH) REFERENCES CUA_HANG(maCH),
---     FOREIGN KEY (maNV) REFERENCES NHAN_VIEN(maND),
---     FOREIGN KEY (maCCH) REFERENCES CHU_CUA_HANG(maND),
---     FOREIGN KEY (tenNQ) REFERENCES NHOM_QUYEN(tenNQ) 
--- ); 
--- INSERT INTO PHAN_QUYEN
--- VALUES ('00000000000000000001', '000000000000002', '000000000000003', 'Nhân viên');
--- chủ cửa hàng - chủ cửa hàng
--- CREATE TABLE KHUYEN_MAI (
---     maKM CHAR(8) NOT NULL,
---     motaKM VARCHAR(500),
---     luongtiengiam FLOAT(1),
---     giatoithieu INT,
---     giamtoida INT,
---     PRIMARY KEY (maKM),
---     CHECK (luongtiengiam > 0 AND luongtiengiam <= 1)
--- );
--- INSERT INTO KHUYEN_MAI
--- VALUES ('HA000001', 'Giảm 15% cho khách hàng mới có đơn hàng trị giá hơn 100.000 VNĐ, tối đa 50.000 VNĐ', 0.15, 100000, 50000);
--- INSERT INTO KHUYEN_MAI
--- VALUES ('ME000001', 'Giảm 20% cho mọi đơn hàng trị giá hơn 100.000 VNĐ, tối đa 50.000 VNĐ', 0.2, 100000, 50000);
+--  CREATE TABLE NHOM_QUYEN (
+--      maCCH CHAR(15) NOT NULL,
+--      tenNQ VARCHAR(30) NOT NULL,
+--      motaNQ VARCHAR(1000),
+--      PRIMARY KEY (maCCH, tenNQ),
+--      FOREIGN KEY (maCCH) REFERENCES CHU_CUA_HANG(maND)
+--      ON UPDATE CASCADE
+--      ON DELETE CASCADE
+--  );
+--  INSERT INTO NHOM_QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Quyền cao nhất của người dùng');
+--  INSERT INTO NHOM_QUYEN
+--  VALUES ('000000000000004', 'Nhân viên', 'Quyền mặc định của nhân viên thuộc 1 cửa hàng');
+--  CREATE TABLE QUYEN (
+--      maCCH CHAR(15) NOT NULL,
+--      tenNQ VARCHAR(30) NOT NULL,
+--      Quyen VARCHAR(500),
+--      PRIMARY KEY (maCCH, tenNQ),
+--      FOREIGN KEY (maCCH) REFERENCES NHOM_QUYEN(maCCH)
+--      ON UPDATE CASCADE
+--      ON DELETE CASCADE,
+--      FOREIGN KEY (tenNQ) REFERENCES NHOM_QUYEN(tenNQ)
+--      ON UPDATE CASCADE
+--      ON DELETE CASCADE
+--  );
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Cập nhật cửa hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Thêm nhân viên vào cửa hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Thêm người dùng vào nhóm quyền');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem cửa hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem danh sách nhân viên của cửa hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xoá nhân viên khỏi cửa hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Chỉnh sửa đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Tạo đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Huỷ đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem chi tiết đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem danh sách đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Yêu cầu giao lại đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Yêu cầu trả hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Cập nhật yêu cầu hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Tạo yêu cầu hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem chi tiết yêu cầu.hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000003', 'Chủ cửa hàng', 'Xem danh sách yêu cầu hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Chỉnh sửa đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Tạo đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Huỷ đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Xem chi tiết đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Xem danh sách đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Yêu cầu giao lại đơn hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Yêu cầu trả hàng');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Cập nhật yêu cầu hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Tạo yêu cầu hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Xem chi tiết yêu cầu.hỗ trợ');
+--  INSERT INTO QUYEN
+--  VALUES ('000000000000002', 'Nhân viên', 'Xem danh sách yêu cầu hỗ trợ');
+--  CREATE TABLE PHAN_QUYEN (
+--      maCH CHAR(20) NOT NULL,
+--      maNV CHAR(15) NOT NULL,
+--      maCCH CHAR(15) NOT NULL,
+--      tenNQ VARCHAR(30) NOT NULL,
+--      PRIMARY KEY (maCH, maNV),
+--      FOREIGN KEY (maCH) REFERENCES CUA_HANG(maCH),
+--      FOREIGN KEY (maNV) REFERENCES NHAN_VIEN(maND),
+--      FOREIGN KEY (maCCH) REFERENCES CHU_CUA_HANG(maND),
+--      FOREIGN KEY (tenNQ) REFERENCES NHOM_QUYEN(tenNQ) 
+--  ); 
+--  INSERT INTO PHAN_QUYEN
+--  VALUES ('00000000000000000001', '000000000000002', '000000000000003', 'Nhân viên');
+--  chủ cửa hàng - chủ cửa hàng
+--  CREATE TABLE KHUYEN_MAI (
+--      maKM CHAR(8) NOT NULL,
+--      motaKM VARCHAR(500),
+--      luongtiengiam FLOAT(1),
+--      giatoithieu INT,
+--      giamtoida INT,
+--      PRIMARY KEY (maKM),
+--      CHECK (luongtiengiam > 0 AND luongtiengiam <= 1)
+--  );
+--  INSERT INTO KHUYEN_MAI
+--  VALUES ('HA000001', 'Giảm 15% cho khách hàng mới có đơn hàng trị giá hơn 100.000 VNĐ, tối đa 50.000 VNĐ', 0.15, 100000, 50000);
+--  INSERT INTO KHUYEN_MAI
+--  VALUES ('ME000001', 'Giảm 20% cho mọi đơn hàng trị giá hơn 100.000 VNĐ, tối đa 50.000 VNĐ', 0.2, 100000, 50000);

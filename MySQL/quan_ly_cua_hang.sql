@@ -28,7 +28,7 @@ WHERE LV.maCH = CH.maCH
 GROUP BY maCH HAVING COUNT(*) > 2
 ORDER BY COUNT(*) ASC;
 
---hiển thị các cửa hàng mà có nhiều hơn 3 đơn hàng, xếp theo thứ tự số lượng đơn hàng từ bé đến lớn
+-- hiển thị các cửa hàng mà có nhiều hơn 3 đơn hàng, xếp theo thứ tự số lượng đơn hàng từ bé đến lớn
 SELECT maCH, tenCH, COUNT(*)
 FROM CUA_HANG, DON_HANG
 WHERE CUA_HANG.maCH = DON_HANG.maCH
