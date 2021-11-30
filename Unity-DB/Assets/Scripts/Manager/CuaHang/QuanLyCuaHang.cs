@@ -10,7 +10,7 @@ public class QuanLyCuaHang : ButtonHandler
     public GameObject cuaHangPrefab;
     public Dropdown trangthai;
     public Transform container;
-
+    public InputField idNhanVien;
 
     private void Start()
     {
@@ -55,7 +55,7 @@ public class QuanLyCuaHang : ButtonHandler
         {
             yield return www.SendWebRequest();
 
-            //Debug.Log(www.downloadHandler.text);
+            Debug.Log(www.downloadHandler.text);
 
             string[] result = www.downloadHandler.text.Split('\n');
 
@@ -78,7 +78,14 @@ public class QuanLyCuaHang : ButtonHandler
 
         // * Data field
         WWWForm form = new WWWForm();
-        form.AddField("filter", "");
+        if (idNhanVien.text == "")
+            form.AddField("filter", "");
+        else
+        {
+            Debug.Log("Filter by id : " + idNhanVien.text);
+            form.AddField("filterById", "");
+            form.AddField("employee_id", idNhanVien.text);
+        }
         form.AddField("status", trangthai.value - 1); // -1 , 0 , 1
         form.AddField("owner_id", Manager.instance.userId);
 
@@ -90,7 +97,7 @@ public class QuanLyCuaHang : ButtonHandler
         {
             yield return www.SendWebRequest();
 
-            //Debug.Log(www.downloadHandler.text);
+            Debug.Log(www.downloadHandler.text);
 
             string[] result = www.downloadHandler.text.Split('\n');
 
