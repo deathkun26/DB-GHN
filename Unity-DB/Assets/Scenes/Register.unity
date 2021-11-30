@@ -1183,12 +1183,12 @@ MonoBehaviour:
   m_CaptionImage: {fileID: 0}
   m_ItemText: {fileID: 1864091646}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Value: 1
   m_Options:
     m_Options:
-    - m_Text: "Ch\u1EE7 c\u1EEDa h\xE0ng"
-      m_Image: {fileID: 0}
     - m_Text: "Nh\xE2n vi\xEAn"
+      m_Image: {fileID: 0}
+    - m_Text: "Ch\u1EE7 c\u1EEDa h\xE0ng"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

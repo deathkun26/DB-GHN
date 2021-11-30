@@ -1255,17 +1255,17 @@ CREATE TABLE GUI_YEU_CAU (
 INSERT INTO
     GUI_YEU_CAU(maND, maYC, maVD)
 VALUES
-    (12300001, 99000000, 12222221);
+    (12300000, 99000000, 12222221);
 
 INSERT INTO
     GUI_YEU_CAU(maND, maYC, maVD)
 VALUES
-    (12300001, 99000001, 12222221);
+    (12300000, 99000001, 12222221);
 
 INSERT INTO
     GUI_YEU_CAU(maND, maYC, maVD)
 VALUES
-    (12300001, 99000002, 12222221);
+    (12300000, 99000002, 12222221);
 
 INSERT INTO
     GUI_YEU_CAU(maND, maYC, maVD)
@@ -1417,10 +1417,34 @@ BEGIN
 	UPDATE DON_HANG
     SET diachitrahang = dia_chi_tra_ve, calayhang = ca_lay, kichthuocDH = kich_thuoc, trangthai = trang_thai, hotenNN = ho_ten, sodienthoaiNN = so_dien_thoai, diachiNN = dia_chi, ngaytaoDH = DEFAULT
     WHERE maVD = ma_van_don;
-    UPDATE GUI_TOI
-    SET sttDGN = stt_DGN, khuvucDGN = khu_vuc_DGN
-    WHERE maVD = ma_van_don;
+    IF EXISTS(SELECT * FROM GUI_TOI WHERE maVD = ma_van_don) THEN
+		IF DGN = '' THEN
+			DELETE FROM GUI_TOI WHERE maVD = ma_van_don;
+        ELSE
+			UPDATE GUI_TOI
+			SET sttDGN = stt_DGN, khuvucDGN = khu_vuc_DGN
+			WHERE maVD = ma_van_don;
+        END IF;
+    ELSE
+		IF DGN <> '' THEN
+			INSERT INTO GUI_TOI
+            VALUES (ma_van_don, stt_DGN, khu_vuc_DGN);
+		END IF;
+    END IF;
     DELETE FROM SAN_PHAM WHERE maVD = ma_van_don;
 END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER capNhatThoiGianYC
+    AFTER UPDATE
+    ON YEU_CAU_HO_TRO FOR EACH ROW
+BEGIN
+	UPDATE GUI_YEU_CAU
+	SET thoigiangui = DATE(CURRENT_TIMESTAMP)
+	WHERE GUI_YEU_CAU.maYC = OLD.maYC;
+END//  
 
 DELIMITER ;

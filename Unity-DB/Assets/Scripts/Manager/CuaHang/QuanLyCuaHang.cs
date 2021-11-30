@@ -39,10 +39,6 @@ public class QuanLyCuaHang : ButtonHandler
             container.GetChild(i).gameObject.GetComponent<CuaHang>().stt.text = (i + 1).ToString();
         }
     }
-    public void CapNhatDSCH()
-    {
-        StartCoroutine(LayDanhSachCuaHang());
-    }
 
     IEnumerator XoaCuaHang(string maCuaHang)
     {
@@ -67,6 +63,7 @@ public class QuanLyCuaHang : ButtonHandler
             if (result[0] == "0")
             {
                 Debug.Log("Xoá cửa hàng thành công");
+                Manager.instance.CapNhatCuaHang();
             }
             else // * Request Fail
             {
@@ -81,8 +78,8 @@ public class QuanLyCuaHang : ButtonHandler
 
         // * Data field
         WWWForm form = new WWWForm();
-        form.AddField("filter", 1);
-        form.AddField("status", trangthai.value - 1);
+        form.AddField("filter", "");
+        form.AddField("status", trangthai.value - 1); // -1 , 0 , 1
         form.AddField("owner_id", Manager.instance.userId);
 
         // * URL

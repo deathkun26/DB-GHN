@@ -36,18 +36,19 @@ if(isset($_POST["add_employee"])){
 }
 
 else if(isset($_POST["employee_filter"])){
-    if(isset($_POST["store_id"])){
+    if(isset($_POST["store_id"]) && isset($_POST["owner_id"])){
         $errors = array();
         
         // Trả về họ và tên, số điện thoại và danh sách cửa hàng => Trả về thêm id để chỉnh sửa và xóa
         $store_id = $_POST["store_id"];
+        $owner_id = $_POST["owner_id"];
     
         // Kết nối tới database
         require './connection.php';
     
         // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
         require "./function.php";
-        $result = filterEmployee($store_id);
+        $result = filterEmployee($store_id,$owner_id);
         if(mysqli_num_rows($result) === 0) {
             echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
         }        

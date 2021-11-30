@@ -73,7 +73,7 @@ public class ThemCuaHang : MonoBehaviour
             {
                 Debug.Log("Thêm cửa hàng thành công");
                 Manager.instance.CapNhatCuaHang();
-                QuanLyCuaHang.instance.CapNhatDSCH();
+                QuanLyCuaHang.instance.Load();
                 themPanel.SetActive(false);
             }
             else // * Request Fail

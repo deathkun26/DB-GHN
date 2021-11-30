@@ -57,7 +57,7 @@ public class CuaHang : MonoBehaviour
             {
                 Debug.Log("Chỉnh sửa cửa hàng thành công");
                 Manager.instance.CapNhatCuaHang();
-                QuanLyCuaHang.instance.CapNhatDSCH();
+                QuanLyCuaHang.instance.Load();
             }
             else // * Request Fail
             {

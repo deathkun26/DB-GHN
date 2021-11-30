@@ -127,7 +127,7 @@ public class QuanLyNhanVien : ButtonHandler
             store_id = dsCuaHang.captionText.text.Split('-')[1].Remove(0, 1);
         Debug.Log("_" + store_id + "_");
         form.AddField("store_id", store_id);
-        form.AddField("userId", Manager.instance.userId);
+        form.AddField("owner_id", Manager.instance.userId);
 
         // * URL
         string url = "http://localhost/php/employee.php";

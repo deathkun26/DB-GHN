@@ -78,6 +78,7 @@ public class QuanLyYeuCau : ButtonHandler
             if (result[0] == "0")
             {
                 Debug.Log("Xoá yêu cầu thành công");
+                Load();
             }
             else // * Request Fail
             {

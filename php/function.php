@@ -279,13 +279,15 @@
         return $results;
     }
     /* Lọc nhân viên theo mã cửa hàng*/
-    function filterEmployee($store_id){
+    function filterEmployee($store_id,$owner_id){
         global $db;
         $query = "";
         if($store_id == "")
-            $query = "SELECT * FROM `nguoi_dung`, `nhan_vien`, `lam_viec_tai` WHERE `nguoi_dung`.`maND` = `nhan_vien`.`maND` AND `lam_viec_tai`.`maND` = `nguoi_dung`.`maND`;"; 
+            $query = "SELECT * FROM `nguoi_dung`, `cua_hang`, `lam_viec_tai` 
+                    WHERE `cua_hang`.`maCCH` = ".$owner_id ." AND `lam_viec_tai`.`maND` = `nguoi_dung`.`maND` AND `lam_viec_tai`.`maCH` = `cua_hang`.`maCH`;"; 
         else { 
-            $query = "SELECT * FROM `nguoi_dung`, `nhan_vien`, `lam_viec_tai` WHERE `lam_viec_tai`.`maCH` = " . $store_id. " AND `nguoi_dung`.`maND` = `nhan_vien`.`maND` AND `lam_viec_tai`.`maND` = `nguoi_dung`.`maND`;";
+            $query = "SELECT * FROM `nguoi_dung`, `nhan_vien`, `lam_viec_tai` 
+                    WHERE `lam_viec_tai`.`maCH` = " . $store_id. " AND `nguoi_dung`.`maND` = `nhan_vien`.`maND` AND `lam_viec_tai`.`maND` = `nguoi_dung`.`maND`;";
         }
 
         $results = mysqli_query($db, $query);
@@ -369,8 +371,8 @@
         global $db;
         // Lấy thông tin nhân viên của 1 người chủ
         $query = "SELECT `hotenND`, `sodienthoaiND` 
-                FROM `nguoi_dung`
-                WHERE `nguoi_dung`.`maND`=" .$employee_id ;
+                FROM `nguoi_dung`,`nhan_vien`
+                WHERE `nguoi_dung`.`maND` = `nhan_vien`.`maND` AND `nguoi_dung`.`maND`=" .$employee_id ;
         $results = mysqli_query($db, $query);
         if (mysqli_num_rows($results) > 0) {
             echo "0\n";
