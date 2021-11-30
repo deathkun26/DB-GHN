@@ -179,3 +179,47 @@ END//
 DELIMITER ;
 
 SELECT tinhTongTienDH(11111111);
+
+
+DROP PROCEDURE IF EXISTS capNhatDonHang;
+DELIMITER //
+
+CREATE PROCEDURE capNhatDonHang(
+		IN ma_van_don INT,
+        IN dia_chi_tra_ve VARCHAR(60),
+        IN ca_lay BOOL,
+        IN kich_thuoc INT,
+        IN trang_thai TINYINT,
+		IN ho_ten VARCHAR(30),
+		IN so_dien_thoai CHAR(10),
+		IN dia_chi VARCHAR(60),
+        IN DGN VARCHAR(60)
+)
+BEGIN
+	DECLARE stt_DGN INT;
+    DECLARE khu_vuc_DGN VARCHAR(30);
+	SET stt_DGN = CONVERT(SUBSTRING_INDEX(DGN,' -',1),UNSIGNED INTEGER); -- test
+    SET khu_vuc_DGN = SUBSTRING_INDEX(DGN, "- ", -1);
+	UPDATE DON_HANG
+    SET diachitrahang = dia_chi_tra_ve, calayhang = ca_lay, kichthuocDH = kich_thuoc, trangthai = trang_thai, hotenNN = ho_ten, sodienthoaiNN = so_dien_thoai, diachiNN = dia_chi, ngaytaoDH = DEFAULT
+    WHERE maVD = ma_van_don;
+    IF EXISTS(SELECT * FROM GUI_TOI WHERE maVD = ma_van_don) THEN
+		IF DGN = '' THEN
+			DELETE FROM GUI_TOI WHERE maVD = ma_van_don;
+        ELSE
+			UPDATE GUI_TOI
+			SET sttDGN = stt_DGN, khuvucDGN = khu_vuc_DGN
+			WHERE maVD = ma_van_don;
+        END IF;
+    ELSE
+		IF DGN <> '' THEN
+			INSERT INTO GUI_TOI
+            VALUES (ma_van_don, stt_DGN, khu_vuc_DGN);
+		END IF;
+    END IF;
+    DELETE FROM SAN_PHAM WHERE maVD = ma_van_don;
+END //
+
+DELIMITER ;
+
+CALL capNhatDonHang(11111111, 'ABCD - Tỉnh Quảng Ninh', TRUE, 1000, 1, 'Huy Trần Quang', '0123456789', 'dfsdf - Tỉnh Long Thành', '2 - Sơn Trà');
