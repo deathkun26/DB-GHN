@@ -3,11 +3,15 @@ SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
 FROM DON_HANG, CUA_HANG
 WHERE DON_HANG.maCH = CUA_HANG.maCH
 ORDER BY maVD DESC;
+
+
 -- hiển thị danh sách tất cả các sản phẩm trong 1 hoá đơn theo thứ tự tăng dần của STT sản phẩm.
 SELECT sttSP, tenSP, soluongSP, khoiluongSP
 FROM SAN_PHAM, DON_HANG
 WHERE SAN_PHAM.maVD = DON_HANG.maVD
 ORDER BY sttSP ASC;
+
+
 -- hiển thị thông tin bưu tá lấy hàng.
 SELECT hotenBt, sodienthoaiBT
 FROM BUU_TA, DON_HANG
@@ -17,6 +21,8 @@ SELECT DIEM_GIAO_NHAN.sttDGN, DIEM_GIAO_NHAN.khuvucDGN, diachiDGN, sodienthoaiDG
 FROM DIEM_GIAO_NHAN, DON_HANG
 WHERE DIEM_GIAO_NHAN.sttDGN = DON_HANG.sttDGN AND DIEM_GIAO_NHAN.khuvucDGN = DON_HANG.khuvucDGN
 ORDER BY khuvucDGN ASC, sttDGN ASC;
+
+
 -- hiển thị danh sách các hoá đơn của cửa hàng trong phạm vi ngày-tháng-năm theo thứ tự từ mới đến cũ nhất.
 SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
 FROM DON_HANG, CUA_HANG
@@ -31,11 +37,15 @@ SELECT maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
 FROM CUA_HANG, DON_HANG
 WHERE CUA_HANG.maCCH = 12300000 AND CUA_HANG.maCH = DON_HANG.maCH
 ORDER BY maVD DESC;
+
+
 -- hiển thị danh sách tất cả các sản phẩm của một đơn hàng có họ tên người nhận là Hà Duy Anh theo thứ tự của đơn hàng từ mới đến cũ nhất.
 SELECT sttSP, tenSP, soluongSP, khoiluongSP
 FROM SAN_PHAM, DON_HANG
 WHERE DON_HANG.hotenNN = 'Hà Duy Anh' AND SAN_PHAM.maVD = DON_HANG.maVD
 ORDER BY DON_HANG.maVD DESC, sttSP ASC;
+
+
 -- hiển thị thông tin các bưu tá nhận số lượng đơn hàng lớn hơn 2 theo thứ tự tăng dần của số lượng đơn hàng.
 SELECT BUU_TA.maBT, hotenBT, sodienthoaiBT, count(*) AS soluongDH
 FROM DON_HANG, BUU_TA
@@ -43,6 +53,8 @@ WHERE DON_HANG.maBT = BUU_TA.maBT
 GROUP BY maBT, hotenBT, sodienthoaiBT
 HAVING count(*) > 2
 ORDER BY count(*) ASC;
+
+
 -- hiển thị những đơn hàng có trên 3 sản phẩm theo thứ tự tăng dần của số lượng sản phẩm.
 SELECT DON_HANG.maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai, count(*) AS soluongSP
 FROM DON_HANG, SAN_PHAM
@@ -50,6 +62,7 @@ WHERE DON_HANG.maVD = SAN_PHAM.maVD
 GROUP BY DON_HANG.maVD, hotenNN, sodienthoaiNN, diachiNN, trangthai
 HAVING count(*) > 3
 ORDER BY count(*) ASC;
+
 
 -- yêu cầu số 2
 -- thủ tục hiển thị
@@ -114,6 +127,7 @@ BEGIN
 END//  
 
 DELIMITER ;
+
 --  CH3-DH1
  INSERT INTO SAN_PHAM
  VALUES (13333331, 1, 'Sách 1', 20, 100);
@@ -122,6 +136,8 @@ DELIMITER ;
 --  INSERT INTO SAN_PHAM
 --  VALUES (13333331, 3, 'Sách 2', 20, 100);
 -- trigger xoá các sản phẩm khi xoá đơn hàng nháp.
+
+
 DELIMITER //
 
 CREATE TRIGGER xoaSanPham
@@ -132,6 +148,8 @@ BEGIN
 END//  
 
 DELIMITER ;
+
+
 -- trigger xoá thông tin của điểm giao nhận khi xoá đơn hàng nháp.
 DELIMITER //
 

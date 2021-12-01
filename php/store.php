@@ -81,6 +81,33 @@ else if(isset($_POST["filter"])){
     }
 }
 
+else if(isset($_POST["filterById"])){
+    if(isset($_POST["owner_id"]) && isset($_POST["status"]) && isset($_POST["employee_id"])){
+        $errors = array();
+        
+        $owner_id = $_POST["owner_id"];
+        $employee_id = $_POST["employee_id"];
+        $status = $_POST["status"];
+    
+        // Kết nối tới database
+        require './connection.php';
+    
+        // Câu query lấy tất cả các đơn hàng từ $time_from tới $time_to của cửa hàng $store
+        require "./function.php";
+        $result = filterStoreById($owner_id, $employee_id , $status);
+        if(mysqli_num_rows($result) === 0) {
+            echo "1"; // Thành công nhưng không có đơn hàng nào thỏa yêu cầu filter -> Trả về ?
+        }        
+        else {
+            echo "0\n";
+            while($row = $result->fetch_assoc()) {
+                echo "". $row["maCH"] . "\t" . $row["tenCH"] ."\t". $row["trangthaiCH"] ."\t" . $row["sodienthoaiCH"]."\t". $row["diachiCH"]. "\n";
+                // format echo: 1\t\tDang giao\t25000\n
+            }
+        }
+    }
+}
+
 else if(isset($_POST["delete"])){
     if(isset($_POST["store_id"])){
         

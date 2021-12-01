@@ -229,6 +229,22 @@
         
         return $results;
     }
+    /* Lọc cửa hàng theo trạng thái Và id nhân viên */
+    function filterStoreById($owner_id, $employee_id ,$status){
+        global $db;
+        $query = "";
+        if($status == "-1"){
+            $query = "SELECT * FROM `cua_hang`,`lam_viec_tai` WHERE `cua_hang`.`maCCH` =". $owner_id ." AND `lam_viec_tai`.`maND`= ". $employee_id ." AND `lam_viec_tai`.`maCH` = `cua_hang`.`maCH`;";
+            $results = mysqli_query($db, $query);
+        }
+        else{
+            $query = "SELECT * FROM `cua_hang`,`lam_viec_tai` WHERE `cua_hang`.`maCCH` =". $owner_id ." AND `lam_viec_tai`.`maND`= ". $employee_id ." AND `lam_viec_tai`.`maCH` = `cua_hang`.`maCH` AND `trangthaiCH`=" .(int)$status .";";
+            $results = mysqli_query($db, $query);
+        }
+        echo mysqli_error($db);
+        return $results;
+    }
+
     /* Thêm cửa hàng */
     function addStore($owner_id, $store_name, $store_addr, $store_phone){
         global $db;
