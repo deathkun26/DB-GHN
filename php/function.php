@@ -306,7 +306,7 @@
         }
         return $results;
     }
-    /* Cập nhật nhân viên cho cửa hàng */
+    /* Cập nhật nhân viên cho cửa hàng thừaaaaa*/
     function updateEmployeeStore($employee_id, $store_id, $value){
         global $db;
         $query = "";
@@ -325,7 +325,7 @@
         // Kiểm tra nhân viên đó đã có trong bảng chưa
         $query = "SELECT * FROM lam_viec_tai WHERE maCH='$store_id' AND maND='$employee_id'";
         $result = mysqli_query($db, $query);
-        if (mysqli_num_rows($result) > 0) {;}
+        if (mysqli_num_rows($result) > 0) {;} // nếu như vậy thì trả về cái gì? echo 0 thì sao?
         else
         {
             $query = "INSERT INTO lam_viec_tai VALUES($store_id, $employee_id)";
